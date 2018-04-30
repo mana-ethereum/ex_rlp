@@ -1,10 +1,10 @@
 defmodule ExRLP.Decode do
   @moduledoc false
 
-  @spec decode(binary(), :binary | :hex) :: ExRLP.t()
-  def decode(item, encoding) when is_binary(item) do
+  @spec decode(binary(), keyword()) :: ExRLP.t()
+  def decode(item, options \\ []) when is_binary(item) do
     item
-    |> maybe_decode_hex(encoding)
+    |> maybe_decode_hex(Keyword.get(options, :encoding, :binary))
     |> decode_item
   end
 
@@ -111,18 +111,5 @@ defmodule ExRLP.Decode do
     {:ok, decoded_binary} = binary |> Base.decode16(case: :lower)
 
     decoded_binary
-  end
-end
-
-defprotocol ExRLP.Decoder do
-  def decode(value, options \\ nil)
-end
-
-defimpl ExRLP.Decoder, for: BitString do
-  alias ExRLP.Decode
-
-  @spec decode(binary(), keyword()) :: ExRLP.t()
-  def decode(value, options) do
-    value |> Decode.decode(Keyword.get(options, :encoding, :binary))
   end
 end

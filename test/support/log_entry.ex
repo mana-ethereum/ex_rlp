@@ -23,14 +23,13 @@ defmodule ExRLP.LogEntry do
   end
 end
 
-defimpl ExRLP.Encoder, for: ExRLP.LogEntry do
-  alias ExRLP.Encode
-  alias ExRLP.LogEntry
+defimpl ExRLP.Encode, for: ExRLP.LogEntry do
+  alias ExRLP.{Encode, LogEntry}
 
   @spec encode(LogEntry.t(), keyword()) :: binary()
   def encode(log, options \\ []) do
     log
     |> LogEntry.to_list()
-    |> Encode.encode(Keyword.get(options, :encoding, :binary))
+    |> Encode.encode(options)
   end
 end
