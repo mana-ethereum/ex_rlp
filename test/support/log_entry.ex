@@ -1,4 +1,6 @@
 defmodule ExRLP.LogEntry do
+  @moduledoc false
+
   defstruct address: nil, topics: [], data: nil
 
   @type t :: %__MODULE__{
