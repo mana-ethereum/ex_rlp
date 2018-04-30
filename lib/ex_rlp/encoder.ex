@@ -114,16 +114,3 @@ defimpl ExRLP.Encoder, for: List do
     value |> Encode.encode(Keyword.get(options, :encoding, :binary))
   end
 end
-
-defimpl ExRLP.Encoder, for: Map do
-  alias ExRLP.Encode
-
-  @dialyzer {:nowarn_function, encode: 2}
-
-  @spec encode(%{key: ExRLP.t()}, keyword()) :: binary()
-  def encode(map, options) do
-    map
-    |> Map.values()
-    |> Encode.encode(Keyword.get(options, :encoding, :binary))
-  end
-end

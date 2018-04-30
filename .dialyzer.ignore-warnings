@@ -17,3 +17,4 @@
 :0: Unknown function 'Elixir.ExRLP.Encoder.Port':'__impl__'/1
 :0: Unknown function 'Elixir.ExRLP.Encoder.Reference':'__impl__'/1
 :0: Unknown function 'Elixir.ExRLP.Encoder.Tuple':'__impl__'/1
+:0: Unknown function 'Elixir.ExRLP.Encoder.Map':'__impl__'/1

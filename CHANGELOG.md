@@ -1,3 +1,5 @@
+# 0.3.0
+* Remove protocols for Map because it overrides custom struct protocols.
 # 0.2.1
 * Improve typespecs to allow for integers as a valid value to encode in RLP.
 # 0.2.0

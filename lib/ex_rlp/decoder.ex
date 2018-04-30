@@ -115,32 +115,14 @@ defmodule ExRLP.Decode do
 end
 
 defprotocol ExRLP.Decoder do
-  def decode(value, type \\ :binary, options \\ nil)
+  def decode(value, options \\ nil)
 end
 
 defimpl ExRLP.Decoder, for: BitString do
   alias ExRLP.Decode
 
-  @spec decode(binary(), atom(), keyword()) :: ExRLP.t()
-  def decode(value, type \\ :binary, options \\ [])
-
-  def decode(value, :map, options) do
-    keys =
-      options
-      |> Keyword.get(:keys, [])
-      |> Enum.sort()
-
-    value
-    |> Decode.decode(Keyword.get(options, :encoding, :binary))
-    |> Enum.with_index()
-    |> Enum.reduce(%{}, fn {value, index}, acc ->
-      key = keys |> Enum.at(index)
-
-      acc |> Map.put(key, value)
-    end)
-  end
-
-  def decode(value, :binary, options) do
+  @spec decode(binary(), keyword()) :: ExRLP.t()
+  def decode(value, options) do
     value |> Decode.decode(Keyword.get(options, :encoding, :binary))
   end
 end

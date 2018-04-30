@@ -13,7 +13,7 @@ Add `:ex_rlp` as a dependency to your project's `mix.exs`:
 ```elixir
 defp deps do
   [
-    {:ex_rlp, "~> 0.2.1"}
+    {:ex_rlp, "~> 0.3.0"}
   ]
 end
 ```
@@ -53,13 +53,13 @@ Use ExRLP.decode/1 method to decode a rlp encoded data. All items except lists a
 
   ## Examples
 
-      iex(1)> "83646f67" |> ExRLP.decode(:binary, encoding: :hex)
+      iex(1)> "83646f67" |> ExRLP.decode(encoding: :hex)
       "dog"
 
-      iex(2)> "8203e8" |> ExRLP.decode(:binary, encoding: :hex) |> :binary.decode_unsigned
+      iex(2)> "8203e8" |> ExRLP.decode(encoding: :hex) |> :binary.decode_unsigned
       1000
 
-      iex(3)> "c4c2c0c0c0" |> ExRLP.decode(:binary, encoding: :hex)
+      iex(3)> "c4c2c0c0c0" |> ExRLP.decode(encoding: :hex)
       [[[], []], []]
 ```
 
@@ -69,49 +69,42 @@ More examples can be found in test files.
 
 You can define protocols for encoding/decoding custom data types.
 
-Custom protocols for Map have already been implemented in ExRLP:
-
 ```elixir
+defmodule ExRLP.LogEntry do
+  defstruct address: nil, topics: [], data: nil
 
-defimpl ExRLP.Encoder, for: Map do
+  @type t :: %__MODULE__{
+          address: EVM.address(),
+          topics: [integer()],
+          data: binary()
+        }
+
+  @spec new(binary, [integer()], binary()) :: t()
+  def new(address, topics, data) do
+    %__MODULE__{
+      address: address,
+      topics: topics,
+      data: data
+    }
+  end
+
+  def to_list(log) do
+    [log.address, log.topics, log.data]
+  end
+end
+
+defimpl ExRLP.Encoder, for: ExRLP.LogEntry do
   alias ExRLP.Encode
+  alias ExRLP.LogEntry
 
-  def encode(map, _) do
-    map
-    |> Map.values
-    |> Encode.encode
+  @spec encode(LogEntry.t(), keyword()) :: binary()
+  def encode(log, options \\ []) do
+    log
+    |> LogEntry.to_list()
+    |> Encode.encode(Keyword.get(options, :encoding, :binary))
   end
 end
 
-defimpl ExRLP.Decoder, for: BitString do
-  alias ExRLP.Decode
-
-  def decode(value, :map, options) do
-    keys =
-      options
-      |> Keyword.fetch!(:keys)
-      |> Enum.sort
-
-    value
-    |> Decode.decode
-    |> Enum.with_index
-    |> Enum.reduce(%{}, fn({value, index}, acc) ->
-      key = keys |> Enum.at(index)
-
-      acc |> Map.put(key, value)
-    end)
-
-    ...
-  end
-end
-```
-So now it's possible to encode/decode maps:
-```elixir
-iex(1)> %{name: "Vitalik", surname: "Buterin"} |> ExRLP.encode(encoding: :hex)
-"d087566974616c696b874275746572696e"
-
-iex(2)> "d087566974616c696b874275746572696e" |> ExRLP.decode(:map, keys: [:surname, :name], encoding: :hex)
-%{name: "Vitalik", surname: "Buterin"}
 ```
 
 ## Contributing
