@@ -4,7 +4,7 @@ defmodule ExRLP.Mixfile do
   def project do
     [
       app: :ex_rlp,
-      version: "0.2.1",
+      version: "0.3.0",
       elixir: "~> 1.6",
       description: "Ethereum's Recursive Length Prefix (RLP) encoding",
       package: [
@@ -15,7 +15,8 @@ defmodule ExRLP.Mixfile do
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
       deps: deps(),
-      dialyzer: [ignore_warnings: ".dialyzer.ignore-warnings"]
+      dialyzer: [ignore_warnings: ".dialyzer.ignore-warnings"],
+      elixirc_paths: elixirc_paths(Mix.env())
     ]
   end
 
@@ -30,4 +31,7 @@ defmodule ExRLP.Mixfile do
       {:dialyxir, "~> 0.5", only: [:dev], runtime: false}
     ]
   end
+
+  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(_), do: ["lib"]
 end

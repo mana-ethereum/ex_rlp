@@ -1,12 +1,12 @@
-defmodule ExRLP.DecoderTest do
+defmodule ExRLP.DecodeTest do
   use ExUnit.Case
-  alias ExRLP.Decoder
+  alias ExRLP.Decode
 
   test "decodes empty string" do
     rlp_binary = "80"
     expected_result = ""
 
-    result = rlp_binary |> Decoder.decode(:binary, encoding: :hex)
+    result = rlp_binary |> Decode.decode(encoding: :hex)
 
     assert result == expected_result
   end
@@ -15,7 +15,7 @@ defmodule ExRLP.DecoderTest do
     rlp_binary = "00"
     expected_result = "\u0000"
 
-    result = rlp_binary |> Decoder.decode(:binary, encoding: :hex)
+    result = rlp_binary |> Decode.decode(encoding: :hex)
 
     assert result == expected_result
   end
@@ -24,7 +24,7 @@ defmodule ExRLP.DecoderTest do
     rlp_binary = "01"
     expected_result = "\u0001"
 
-    result = rlp_binary |> Decoder.decode(:binary, encoding: :hex)
+    result = rlp_binary |> Decode.decode(encoding: :hex)
 
     assert result == expected_result
   end
@@ -33,7 +33,7 @@ defmodule ExRLP.DecoderTest do
     rlp_binary = "7f"
     expected_result = "\u007F"
 
-    result = rlp_binary |> Decoder.decode(:binary, encoding: :hex)
+    result = rlp_binary |> Decode.decode(encoding: :hex)
 
     assert result == expected_result
   end
@@ -42,7 +42,7 @@ defmodule ExRLP.DecoderTest do
     rlp_binary = "83646f67"
     expected_result = "dog"
 
-    result = rlp_binary |> Decoder.decode(:binary, encoding: :hex)
+    result = rlp_binary |> Decode.decode(encoding: :hex)
 
     assert result == expected_result
   end
@@ -54,7 +54,7 @@ defmodule ExRLP.DecoderTest do
 
     expected_result = "Lorem ipsum dolor sit amet, consectetur adipisicing eli"
 
-    result = rlp_binary |> Decoder.decode(:binary, encoding: :hex)
+    result = rlp_binary |> Decode.decode(encoding: :hex)
 
     assert result == expected_result
   end
@@ -66,7 +66,7 @@ defmodule ExRLP.DecoderTest do
 
     expected_result = "Lorem ipsum dolor sit amet, consectetur adipisicing elit"
 
-    result = rlp_binary |> Decoder.decode(:binary, encoding: :hex)
+    result = rlp_binary |> Decode.decode(encoding: :hex)
 
     assert result == expected_result
   end
@@ -115,7 +115,7 @@ defmodule ExRLP.DecoderTest do
         "lorem libero aliquet arcu, non interdum tellus lectus sit amet eros. Cras rhoncus, " <>
         "metus ac ornare cursus, dolor justo ultrices metus, at ullamcorper volutpat"
 
-    result = rlp_binary |> Decoder.decode(:binary, encoding: :hex)
+    result = rlp_binary |> Decode.decode(encoding: :hex)
 
     assert result == expected_result
   end
@@ -124,7 +124,7 @@ defmodule ExRLP.DecoderTest do
     rlp_binary = "cc83646f6783676f6483636174"
     expected_result = ["dog", "god", "cat"]
 
-    result = rlp_binary |> Decoder.decode(:binary, encoding: :hex)
+    result = rlp_binary |> Decode.decode(encoding: :hex)
 
     assert result == expected_result
   end
@@ -148,7 +148,7 @@ defmodule ExRLP.DecoderTest do
       "qwer"
     ]
 
-    result = rlp_binary |> Decoder.decode(:binary, encoding: :hex)
+    result = rlp_binary |> Decode.decode(encoding: :hex)
 
     assert result == expected_result
   end
@@ -210,7 +210,7 @@ defmodule ExRLP.DecoderTest do
       ["asdf", "qwer", "zxcv"]
     ]
 
-    result = rlp_binary |> Decoder.decode(:binary, encoding: :hex)
+    result = rlp_binary |> Decode.decode(encoding: :hex)
 
     assert result == expected_result
   end
@@ -219,7 +219,7 @@ defmodule ExRLP.DecoderTest do
     rlp_binary = "c4c2c0c0c0"
     expected_result = [[[], []], []]
 
-    result = rlp_binary |> Decoder.decode(:binary, encoding: :hex)
+    result = rlp_binary |> Decode.decode(encoding: :hex)
 
     assert result == expected_result
   end
@@ -228,7 +228,7 @@ defmodule ExRLP.DecoderTest do
     rlp_binary = "c7c0c1c0c3c0c1c0"
     expected_result = [[], [[]], [[], [[]]]]
 
-    result = rlp_binary |> Decoder.decode(:binary, encoding: :hex)
+    result = rlp_binary |> Decode.decode(encoding: :hex)
 
     assert result == expected_result
   end
@@ -245,16 +245,7 @@ defmodule ExRLP.DecoderTest do
       ["key4", "val4"]
     ]
 
-    result = rlp_binary |> Decoder.decode(:binary, encoding: :hex)
-
-    assert result == expected_result
-  end
-
-  test "decoders Map" do
-    rlp_binary = "da8b526f636b276e27526f6c6c85417972617487426164796b6f76"
-    expected_result = %{name: "Ayrat", surname: "Badykov", music: "Rock'n'Roll"}
-
-    result = rlp_binary |> Decoder.decode(:map, keys: [:name, :surname, :music], encoding: :hex)
+    result = rlp_binary |> Decode.decode(encoding: :hex)
 
     assert result == expected_result
   end

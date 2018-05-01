@@ -1,9 +1,9 @@
 defmodule ExRLP do
-  alias ExRLP.{Encoder, Decoder}
+  alias ExRLP.{Encode, Decode}
 
   @moduledoc File.read!("#{__DIR__}/../README.md")
 
-  @type t :: nil | binary() | integer() | [t]
+  @type t :: any()
 
   @doc """
   Given an RLP structure, returns the encoding as a string.
@@ -51,8 +51,8 @@ defmodule ExRLP do
   """
   @spec encode(t) :: binary()
   @spec encode(t, keyword()) :: binary()
-  def encode(item, options \\ []) do
-    item |> Encoder.encode(options)
+  def encode(item, options \\ [encoding: :binary]) do
+    item |> Encode.encode(options)
   end
 
   @doc """
@@ -66,7 +66,7 @@ defmodule ExRLP do
     iex> ExRLP.decode(<<0x83, ?d, ?o, ?g>>)
     "dog"
 
-    iex> ExRLP.decode("83646f67", :binary, encoding: :hex)
+    iex> ExRLP.decode("83646f67", encoding: :hex)
     "dog"
 
     iex> ExRLP.decode(<<184, 60, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65>>)
@@ -100,9 +100,8 @@ defmodule ExRLP do
     15_000_000_000_000_000_000_000_000_000_000_000
   """
   @spec decode(binary()) :: t
-  @spec decode(binary(), atom()) :: t
-  @spec decode(binary(), atom(), keyword()) :: t
-  def decode(item, type \\ :binary, options \\ []) do
-    item |> Decoder.decode(type, options)
+  @spec decode(binary(), keyword()) :: t
+  def decode(item, options \\ [encoding: :binary]) do
+    item |> Decode.decode(options)
   end
 end
