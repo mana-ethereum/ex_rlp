@@ -28,7 +28,8 @@ defmodule ExRLP.Mixfile do
     [
       {:credo, "~> 0.9.1", only: [:dev, :test], runtime: false},
       {:ex_doc, "~> 0.16", only: :dev, runtime: false},
-      {:dialyxir, "~> 0.5", only: [:dev], runtime: false}
+      {:dialyxir, "~> 0.5", only: [:dev], runtime: false},
+      {:poison, "~> 3.1.0", only: [:dev, :test], runtime: false}
     ]
   end
 
