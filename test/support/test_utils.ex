@@ -19,12 +19,12 @@ defmodule ExRLP.TestUtils do
   def normalize_decoded_data(input, output, acc \\ [])
 
   def normalize_decoded_data(input, output, _) when is_number(output) do
-    input |> :binary.decode_unsigned
+    input |> :binary.decode_unsigned()
   end
 
   def normalize_decoded_data([], [], acc), do: acc
 
-  def normalize_decoded_data([in_head|in_tail], [out_head|out_tail], acc) do
+  def normalize_decoded_data([in_head | in_tail], [out_head | out_tail], acc) do
     normalized_item = normalize_decoded_data(in_head, out_head)
 
     normalize_decoded_data(in_tail, out_tail, acc ++ [normalized_item])

@@ -16,7 +16,7 @@ defmodule ExRLP.EncodeTest do
           |> Encode.encode(encoding: :hex)
 
         assert result == expected_result,
-          "Test for #{test_name} failed, expected #{result} to equal to #{expected_result}"
+               "Test for #{test_name} failed, expected #{result} to equal to #{expected_result}"
       end)
     end
   end

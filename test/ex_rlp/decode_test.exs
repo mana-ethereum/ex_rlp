@@ -18,7 +18,7 @@ defmodule ExRLP.DecodeTest do
           |> normalize_decoded_data(expected_result)
 
         assert result == expected_result,
-          "Test for #{test_name} failed, expected #{result} to equal to #{expected_result}"
+               "Test for #{test_name} failed, expected #{result} to equal to #{expected_result}"
       end)
     end
   end
