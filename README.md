@@ -13,7 +13,7 @@ Add `:ex_rlp` as a dependency to your project's `mix.exs`:
 ```elixir
 defp deps do
   [
-    {:ex_rlp, "~> 0.3.0"}
+    {:ex_rlp, "~> 0.3.1"}
   ]
 end
 ```
