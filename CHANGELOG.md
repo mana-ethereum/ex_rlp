@@ -1,3 +1,5 @@
+# 0.3.1
+* Upgrade elixir version. (https://github.com/exthereum/ex_rlp/pull/14)
 # 0.3.0
 * Remove protocols for Map because it overrides custom struct protocols. (https://github.com/exthereum/ex_rlp/pull/12)
 # 0.2.1

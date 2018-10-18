@@ -4,8 +4,8 @@ defmodule ExRLP.Mixfile do
   def project do
     [
       app: :ex_rlp,
-      version: "0.3.0",
-      elixir: "~> 1.6",
+      version: "0.3.1",
+      elixir: "~> 1.7",
       description: "Ethereum's Recursive Length Prefix (RLP) encoding",
       package: [
         maintainers: ["Ayrat Badykov", "Geoffrey Hayes"],
@@ -26,10 +26,10 @@ defmodule ExRLP.Mixfile do
 
   defp deps do
     [
-      {:credo, "~> 0.9.1", only: [:dev, :test], runtime: false},
-      {:ex_doc, "~> 0.16", only: :dev, runtime: false},
+      {:credo, "~> 0.10.2", only: [:dev, :test], runtime: false},
+      {:ex_doc, "~> 0.19", only: :dev, runtime: false},
       {:dialyxir, "~> 0.5", only: [:dev], runtime: false},
-      {:poison, "~> 3.1.0", only: [:dev, :test], runtime: false}
+      {:poison, "~> 4.0.1", only: [:dev, :test], runtime: false}
     ]
   end
 
