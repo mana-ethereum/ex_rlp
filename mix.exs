@@ -4,13 +4,13 @@ defmodule ExRLP.Mixfile do
   def project do
     [
       app: :ex_rlp,
-      version: "0.3.1",
+      version: "0.4.0",
       elixir: "~> 1.7",
       description: "Ethereum's Recursive Length Prefix (RLP) encoding",
       package: [
         maintainers: ["Ayrat Badykov", "Geoffrey Hayes"],
         licenses: ["MIT"],
-        links: %{"GitHub" => "https://github.com/exthereum/ex_rlp"}
+        links: %{"GitHub" => "https://github.com/mana-ethereum/ex_rlp"}
       ],
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,

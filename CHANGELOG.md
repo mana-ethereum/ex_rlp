@@ -1,3 +1,5 @@
+# 0.4.0
+* Improve speed with list prefixing and tail-call optimizations.
 # 0.3.1
 * Upgrade elixir version. (https://github.com/exthereum/ex_rlp/pull/14)
 # 0.3.0
