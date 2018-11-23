@@ -6,7 +6,7 @@ defmodule ExRLP do
   @type t :: any()
 
   @doc """
-  Given an RLP structure, returns the encoding as a string.
+  Given an RLP structure (i.e. anything), returns the encoding as a binary.
 
   ## Examples
 
@@ -52,11 +52,12 @@ defmodule ExRLP do
   @spec encode(t) :: binary()
   @spec encode(t, keyword()) :: binary()
   def encode(item, options \\ [encoding: :binary]) do
-    item |> Encode.encode(options)
+    Encode.encode(item, options)
   end
 
   @doc """
-  Given an RLP-encoded string, returns a decoded RPL structure (which is an array of RLP structures or binaries).
+  Given an RLP-encoded string, returns a decoded RLP structure (which is an
+  array of RLP structures or binaries).
 
   ## Examples
 
@@ -102,6 +103,6 @@ defmodule ExRLP do
   @spec decode(binary()) :: t
   @spec decode(binary(), keyword()) :: t
   def decode(item, options \\ [encoding: :binary]) do
-    item |> Decode.decode(options)
+    Decode.decode(item, options)
   end
 end
