@@ -4,13 +4,13 @@ defmodule ExRLP.Decode do
   @spec decode(binary(), keyword()) :: ExRLP.t()
   def decode(item, options \\ []) when is_binary(item) do
     item
-    |> maybe_decode_hex(Keyword.get(options, :encoding, :binary))
+    |> unencode(Keyword.get(options, :encoding, :binary))
     |> decode_item
   end
 
-  @spec maybe_decode_hex(binary(), atom()) :: binary()
-  defp maybe_decode_hex(value, :binary), do: value
-  defp maybe_decode_hex(value, :hex), do: decode_hex(value)
+  @spec unencode(binary(), atom()) :: binary()
+  defp unencode(value, :binary), do: value
+  defp unencode(value, :hex), do: Base.decode16!(value, case: :lower)
 
   @spec decode_item(binary(), ExRLP.t()) :: ExRLP.t()
   defp decode_item(rlp_binary, result \\ nil)
@@ -114,8 +114,6 @@ defmodule ExRLP.Decode do
 
   @spec decode_hex(binary()) :: binary()
   defp decode_hex(binary) do
-    {:ok, decoded_binary} = Base.decode16(binary, case: :lower)
-
-    decoded_binary
+    Base.decode16!(binary, case: :lower)
   end
 end
