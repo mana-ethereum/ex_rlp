@@ -6,7 +6,8 @@ defmodule ExRLP do
   @type t :: any()
 
   @doc """
-  Given an RLP structure (i.e. anything), returns the encoding as a binary.
+  Given an RLP-encoded string, returns a decoded RLP structure (which is an
+  array of RLP structures or binaries).
 
   ## Examples
 
@@ -56,8 +57,7 @@ defmodule ExRLP do
   end
 
   @doc """
-  Given an RLP-encoded string, returns a decoded RLP structure (which is an
-  array of RLP structures or binaries).
+  Given an RLP-encoded string, returns a decoded RPL structure (which is an array of RLP structures or binaries).
 
   ## Examples
 
