@@ -3,13 +3,9 @@ defmodule ExRLP.Decode do
 
   @spec decode(binary(), keyword()) :: ExRLP.t()
   def decode(item, options \\ []) when is_binary(item) do
-    case item
-         |> unencode(Keyword.get(options, :encoding, :binary))
-         |> decode_item do
-      [res] -> res
-      [] -> nil
-      els -> els
-    end
+    item
+    |> unencode(Keyword.get(options, :encoding, :binary))
+    |> decode_item
   end
 
   @spec unencode(binary() | String.t(), atom()) :: binary()
@@ -17,37 +13,43 @@ defmodule ExRLP.Decode do
   defp unencode(value, :hex), do: Base.decode16!(value, case: :lower)
 
   @spec decode_item(binary(), ExRLP.t()) :: ExRLP.t()
-  defp decode_item(rlp_binary, result \\ [])
+  defp decode_item(rlp_binary, result \\ nil)
 
   # When we don't have any RLP left, return the accumulator
-  defp decode_item(<<>>, result) do
-    Enum.reverse(result)
-  end
+  defp decode_item(<<>>, result), do: result
 
   # Decodes the head represents an item to be added directly
   # to the result.
   defp decode_item(<<(<<prefix>>), tail::binary>>, result) when prefix < 128 do
-    decode_item(tail, [<<prefix>> | result])
+    new_result = add_new_item(result, <<prefix>>)
+
+    decode_item(tail, new_result)
   end
 
   # Decodes medium length-binary?
   defp decode_item(<<(<<prefix>>), tail::binary>>, result) when prefix <= 183 do
     {new_item, new_tail} = decode_medium_binary(prefix, tail, 128)
 
-    decode_item(new_tail, [new_item | result])
+    new_result = add_new_item(result, new_item)
+
+    decode_item(new_tail, new_result)
   end
 
   # Decodes long length-binary?
   defp decode_item(<<(<<be_size_prefix>>), tail::binary>>, result) when be_size_prefix < 192 do
     {new_item, new_tail} = decode_long_binary(be_size_prefix, tail, 183)
 
-    decode_item(new_tail, [new_item | result])
+    new_result = add_new_item(result, new_item)
+
+    decode_item(new_tail, new_result)
   end
 
   # Decodes an empty list
   defp decode_item(<<(<<be_size_prefix>>), tail::binary>>, result)
        when be_size_prefix == 192 do
-    decode_item(tail, [[] | result])
+    new_result = add_new_item(result, [])
+
+    decode_item(tail, new_result)
   end
 
   defp decode_item(<<(<<prefix>>), tail::binary>>, result) do
@@ -58,9 +60,22 @@ defmodule ExRLP.Decode do
         decode_long_binary(prefix, tail, 247)
       end
 
-    next_list = decode_item(list_bin, [])
+    next_list =
+      list_bin
+      |> decode_item([])
+      |> Enum.reverse()
 
-    decode_item(new_tail, [next_list | result])
+    new_result = add_new_item(result, next_list)
+
+    decode_item(new_tail, new_result)
+  end
+
+  def add_new_item(nil, new_item) do
+    new_item
+  end
+
+  def add_new_item(result, new_item) do
+    [new_item | result]
   end
 
   @spec decode_medium_binary(integer(), binary(), integer()) :: {binary(), binary()}
