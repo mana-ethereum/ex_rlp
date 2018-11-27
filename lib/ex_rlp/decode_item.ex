@@ -1,0 +1,1778 @@
+defmodule ExRLP.DecodeItem do
+  @spec decode_item(binary(), ExRLP.t()) :: ExRLP.t()
+  def decode_item(rlp_binary), do: do_decode_item(rlp_binary, nil)
+  def decode_item(rlp_binary, result), do: do_decode_item(rlp_binary, result)
+  ##
+  ## HANDLING 0 - 127
+  ##
+  defp do_decode_item(<<0, tail::binary>>, nil), do: do_decode_item(tail, <<0>>)
+  defp do_decode_item(<<0, tail::binary>>, result), do: do_decode_item(tail, [<<0>> | result])
+  defp do_decode_item(<<1, tail::binary>>, nil), do: do_decode_item(tail, <<1>>)
+  defp do_decode_item(<<1, tail::binary>>, result), do: do_decode_item(tail, [<<1>> | result])
+  defp do_decode_item(<<2, tail::binary>>, nil), do: do_decode_item(tail, <<2>>)
+  defp do_decode_item(<<2, tail::binary>>, result), do: do_decode_item(tail, [<<2>> | result])
+  defp do_decode_item(<<3, tail::binary>>, nil), do: do_decode_item(tail, <<3>>)
+  defp do_decode_item(<<3, tail::binary>>, result), do: do_decode_item(tail, [<<3>> | result])
+  defp do_decode_item(<<4, tail::binary>>, nil), do: do_decode_item(tail, <<4>>)
+  defp do_decode_item(<<4, tail::binary>>, result), do: do_decode_item(tail, [<<4>> | result])
+  defp do_decode_item(<<5, tail::binary>>, nil), do: do_decode_item(tail, <<5>>)
+  defp do_decode_item(<<5, tail::binary>>, result), do: do_decode_item(tail, [<<5>> | result])
+  defp do_decode_item(<<6, tail::binary>>, nil), do: do_decode_item(tail, <<6>>)
+  defp do_decode_item(<<6, tail::binary>>, result), do: do_decode_item(tail, [<<6>> | result])
+  defp do_decode_item(<<7, tail::binary>>, nil), do: do_decode_item(tail, <<7>>)
+  defp do_decode_item(<<7, tail::binary>>, result), do: do_decode_item(tail, [<<7>> | result])
+  defp do_decode_item(<<8, tail::binary>>, nil), do: do_decode_item(tail, <<8>>)
+  defp do_decode_item(<<8, tail::binary>>, result), do: do_decode_item(tail, [<<8>> | result])
+  defp do_decode_item(<<9, tail::binary>>, nil), do: do_decode_item(tail, <<9>>)
+  defp do_decode_item(<<9, tail::binary>>, result), do: do_decode_item(tail, [<<9>> | result])
+  defp do_decode_item(<<10, tail::binary>>, nil), do: do_decode_item(tail, <<10>>)
+  defp do_decode_item(<<10, tail::binary>>, result), do: do_decode_item(tail, [<<10>> | result])
+  defp do_decode_item(<<11, tail::binary>>, nil), do: do_decode_item(tail, <<11>>)
+  defp do_decode_item(<<11, tail::binary>>, result), do: do_decode_item(tail, [<<11>> | result])
+  defp do_decode_item(<<12, tail::binary>>, nil), do: do_decode_item(tail, <<12>>)
+  defp do_decode_item(<<12, tail::binary>>, result), do: do_decode_item(tail, [<<12>> | result])
+  defp do_decode_item(<<13, tail::binary>>, nil), do: do_decode_item(tail, <<13>>)
+  defp do_decode_item(<<13, tail::binary>>, result), do: do_decode_item(tail, [<<13>> | result])
+  defp do_decode_item(<<14, tail::binary>>, nil), do: do_decode_item(tail, <<14>>)
+  defp do_decode_item(<<14, tail::binary>>, result), do: do_decode_item(tail, [<<14>> | result])
+  defp do_decode_item(<<15, tail::binary>>, nil), do: do_decode_item(tail, <<15>>)
+  defp do_decode_item(<<15, tail::binary>>, result), do: do_decode_item(tail, [<<15>> | result])
+  defp do_decode_item(<<16, tail::binary>>, nil), do: do_decode_item(tail, <<16>>)
+  defp do_decode_item(<<16, tail::binary>>, result), do: do_decode_item(tail, [<<16>> | result])
+  defp do_decode_item(<<17, tail::binary>>, nil), do: do_decode_item(tail, <<17>>)
+  defp do_decode_item(<<17, tail::binary>>, result), do: do_decode_item(tail, [<<17>> | result])
+  defp do_decode_item(<<18, tail::binary>>, nil), do: do_decode_item(tail, <<18>>)
+  defp do_decode_item(<<18, tail::binary>>, result), do: do_decode_item(tail, [<<18>> | result])
+  defp do_decode_item(<<19, tail::binary>>, nil), do: do_decode_item(tail, <<19>>)
+  defp do_decode_item(<<19, tail::binary>>, result), do: do_decode_item(tail, [<<19>> | result])
+  defp do_decode_item(<<20, tail::binary>>, nil), do: do_decode_item(tail, <<20>>)
+  defp do_decode_item(<<20, tail::binary>>, result), do: do_decode_item(tail, [<<20>> | result])
+  defp do_decode_item(<<21, tail::binary>>, nil), do: do_decode_item(tail, <<21>>)
+  defp do_decode_item(<<21, tail::binary>>, result), do: do_decode_item(tail, [<<21>> | result])
+  defp do_decode_item(<<22, tail::binary>>, nil), do: do_decode_item(tail, <<22>>)
+  defp do_decode_item(<<22, tail::binary>>, result), do: do_decode_item(tail, [<<22>> | result])
+  defp do_decode_item(<<23, tail::binary>>, nil), do: do_decode_item(tail, <<23>>)
+  defp do_decode_item(<<23, tail::binary>>, result), do: do_decode_item(tail, [<<23>> | result])
+  defp do_decode_item(<<24, tail::binary>>, nil), do: do_decode_item(tail, <<24>>)
+  defp do_decode_item(<<24, tail::binary>>, result), do: do_decode_item(tail, [<<24>> | result])
+  defp do_decode_item(<<25, tail::binary>>, nil), do: do_decode_item(tail, <<25>>)
+  defp do_decode_item(<<25, tail::binary>>, result), do: do_decode_item(tail, [<<25>> | result])
+  defp do_decode_item(<<26, tail::binary>>, nil), do: do_decode_item(tail, <<26>>)
+  defp do_decode_item(<<26, tail::binary>>, result), do: do_decode_item(tail, [<<26>> | result])
+  defp do_decode_item(<<27, tail::binary>>, nil), do: do_decode_item(tail, <<27>>)
+  defp do_decode_item(<<27, tail::binary>>, result), do: do_decode_item(tail, [<<27>> | result])
+  defp do_decode_item(<<28, tail::binary>>, nil), do: do_decode_item(tail, <<28>>)
+  defp do_decode_item(<<28, tail::binary>>, result), do: do_decode_item(tail, [<<28>> | result])
+  defp do_decode_item(<<29, tail::binary>>, nil), do: do_decode_item(tail, <<29>>)
+  defp do_decode_item(<<29, tail::binary>>, result), do: do_decode_item(tail, [<<29>> | result])
+  defp do_decode_item(<<30, tail::binary>>, nil), do: do_decode_item(tail, <<30>>)
+  defp do_decode_item(<<30, tail::binary>>, result), do: do_decode_item(tail, [<<30>> | result])
+  defp do_decode_item(<<31, tail::binary>>, nil), do: do_decode_item(tail, <<31>>)
+  defp do_decode_item(<<31, tail::binary>>, result), do: do_decode_item(tail, [<<31>> | result])
+  defp do_decode_item(<<32, tail::binary>>, nil), do: do_decode_item(tail, <<32>>)
+  defp do_decode_item(<<32, tail::binary>>, result), do: do_decode_item(tail, [<<32>> | result])
+  defp do_decode_item(<<33, tail::binary>>, nil), do: do_decode_item(tail, <<33>>)
+  defp do_decode_item(<<33, tail::binary>>, result), do: do_decode_item(tail, [<<33>> | result])
+  defp do_decode_item(<<34, tail::binary>>, nil), do: do_decode_item(tail, <<34>>)
+  defp do_decode_item(<<34, tail::binary>>, result), do: do_decode_item(tail, [<<34>> | result])
+  defp do_decode_item(<<35, tail::binary>>, nil), do: do_decode_item(tail, <<35>>)
+  defp do_decode_item(<<35, tail::binary>>, result), do: do_decode_item(tail, [<<35>> | result])
+  defp do_decode_item(<<36, tail::binary>>, nil), do: do_decode_item(tail, <<36>>)
+  defp do_decode_item(<<36, tail::binary>>, result), do: do_decode_item(tail, [<<36>> | result])
+  defp do_decode_item(<<37, tail::binary>>, nil), do: do_decode_item(tail, <<37>>)
+  defp do_decode_item(<<37, tail::binary>>, result), do: do_decode_item(tail, [<<37>> | result])
+  defp do_decode_item(<<38, tail::binary>>, nil), do: do_decode_item(tail, <<38>>)
+  defp do_decode_item(<<38, tail::binary>>, result), do: do_decode_item(tail, [<<38>> | result])
+  defp do_decode_item(<<39, tail::binary>>, nil), do: do_decode_item(tail, <<39>>)
+  defp do_decode_item(<<39, tail::binary>>, result), do: do_decode_item(tail, [<<39>> | result])
+  defp do_decode_item(<<40, tail::binary>>, nil), do: do_decode_item(tail, <<40>>)
+  defp do_decode_item(<<40, tail::binary>>, result), do: do_decode_item(tail, [<<40>> | result])
+  defp do_decode_item(<<41, tail::binary>>, nil), do: do_decode_item(tail, <<41>>)
+  defp do_decode_item(<<41, tail::binary>>, result), do: do_decode_item(tail, [<<41>> | result])
+  defp do_decode_item(<<42, tail::binary>>, nil), do: do_decode_item(tail, <<42>>)
+  defp do_decode_item(<<42, tail::binary>>, result), do: do_decode_item(tail, [<<42>> | result])
+  defp do_decode_item(<<43, tail::binary>>, nil), do: do_decode_item(tail, <<43>>)
+  defp do_decode_item(<<43, tail::binary>>, result), do: do_decode_item(tail, [<<43>> | result])
+  defp do_decode_item(<<44, tail::binary>>, nil), do: do_decode_item(tail, <<44>>)
+  defp do_decode_item(<<44, tail::binary>>, result), do: do_decode_item(tail, [<<44>> | result])
+  defp do_decode_item(<<45, tail::binary>>, nil), do: do_decode_item(tail, <<45>>)
+  defp do_decode_item(<<45, tail::binary>>, result), do: do_decode_item(tail, [<<45>> | result])
+  defp do_decode_item(<<46, tail::binary>>, nil), do: do_decode_item(tail, <<46>>)
+  defp do_decode_item(<<46, tail::binary>>, result), do: do_decode_item(tail, [<<46>> | result])
+  defp do_decode_item(<<47, tail::binary>>, nil), do: do_decode_item(tail, <<47>>)
+  defp do_decode_item(<<47, tail::binary>>, result), do: do_decode_item(tail, [<<47>> | result])
+  defp do_decode_item(<<48, tail::binary>>, nil), do: do_decode_item(tail, <<48>>)
+  defp do_decode_item(<<48, tail::binary>>, result), do: do_decode_item(tail, [<<48>> | result])
+  defp do_decode_item(<<49, tail::binary>>, nil), do: do_decode_item(tail, <<49>>)
+  defp do_decode_item(<<49, tail::binary>>, result), do: do_decode_item(tail, [<<49>> | result])
+  defp do_decode_item(<<50, tail::binary>>, nil), do: do_decode_item(tail, <<50>>)
+  defp do_decode_item(<<50, tail::binary>>, result), do: do_decode_item(tail, [<<50>> | result])
+  defp do_decode_item(<<51, tail::binary>>, nil), do: do_decode_item(tail, <<51>>)
+  defp do_decode_item(<<51, tail::binary>>, result), do: do_decode_item(tail, [<<51>> | result])
+  defp do_decode_item(<<52, tail::binary>>, nil), do: do_decode_item(tail, <<52>>)
+  defp do_decode_item(<<52, tail::binary>>, result), do: do_decode_item(tail, [<<52>> | result])
+  defp do_decode_item(<<53, tail::binary>>, nil), do: do_decode_item(tail, <<53>>)
+  defp do_decode_item(<<53, tail::binary>>, result), do: do_decode_item(tail, [<<53>> | result])
+  defp do_decode_item(<<54, tail::binary>>, nil), do: do_decode_item(tail, <<54>>)
+  defp do_decode_item(<<54, tail::binary>>, result), do: do_decode_item(tail, [<<54>> | result])
+  defp do_decode_item(<<55, tail::binary>>, nil), do: do_decode_item(tail, <<55>>)
+  defp do_decode_item(<<55, tail::binary>>, result), do: do_decode_item(tail, [<<55>> | result])
+  defp do_decode_item(<<56, tail::binary>>, nil), do: do_decode_item(tail, <<56>>)
+  defp do_decode_item(<<56, tail::binary>>, result), do: do_decode_item(tail, [<<56>> | result])
+  defp do_decode_item(<<57, tail::binary>>, nil), do: do_decode_item(tail, <<57>>)
+  defp do_decode_item(<<57, tail::binary>>, result), do: do_decode_item(tail, [<<57>> | result])
+  defp do_decode_item(<<58, tail::binary>>, nil), do: do_decode_item(tail, <<58>>)
+  defp do_decode_item(<<58, tail::binary>>, result), do: do_decode_item(tail, [<<58>> | result])
+  defp do_decode_item(<<59, tail::binary>>, nil), do: do_decode_item(tail, <<59>>)
+  defp do_decode_item(<<59, tail::binary>>, result), do: do_decode_item(tail, [<<59>> | result])
+  defp do_decode_item(<<60, tail::binary>>, nil), do: do_decode_item(tail, <<60>>)
+  defp do_decode_item(<<60, tail::binary>>, result), do: do_decode_item(tail, [<<60>> | result])
+  defp do_decode_item(<<61, tail::binary>>, nil), do: do_decode_item(tail, <<61>>)
+  defp do_decode_item(<<61, tail::binary>>, result), do: do_decode_item(tail, [<<61>> | result])
+  defp do_decode_item(<<62, tail::binary>>, nil), do: do_decode_item(tail, <<62>>)
+  defp do_decode_item(<<62, tail::binary>>, result), do: do_decode_item(tail, [<<62>> | result])
+  defp do_decode_item(<<63, tail::binary>>, nil), do: do_decode_item(tail, <<63>>)
+  defp do_decode_item(<<63, tail::binary>>, result), do: do_decode_item(tail, [<<63>> | result])
+  defp do_decode_item(<<64, tail::binary>>, nil), do: do_decode_item(tail, <<64>>)
+  defp do_decode_item(<<64, tail::binary>>, result), do: do_decode_item(tail, [<<64>> | result])
+  defp do_decode_item(<<65, tail::binary>>, nil), do: do_decode_item(tail, <<65>>)
+  defp do_decode_item(<<65, tail::binary>>, result), do: do_decode_item(tail, [<<65>> | result])
+  defp do_decode_item(<<66, tail::binary>>, nil), do: do_decode_item(tail, <<66>>)
+  defp do_decode_item(<<66, tail::binary>>, result), do: do_decode_item(tail, [<<66>> | result])
+  defp do_decode_item(<<67, tail::binary>>, nil), do: do_decode_item(tail, <<67>>)
+  defp do_decode_item(<<67, tail::binary>>, result), do: do_decode_item(tail, [<<67>> | result])
+  defp do_decode_item(<<68, tail::binary>>, nil), do: do_decode_item(tail, <<68>>)
+  defp do_decode_item(<<68, tail::binary>>, result), do: do_decode_item(tail, [<<68>> | result])
+  defp do_decode_item(<<69, tail::binary>>, nil), do: do_decode_item(tail, <<69>>)
+  defp do_decode_item(<<69, tail::binary>>, result), do: do_decode_item(tail, [<<69>> | result])
+  defp do_decode_item(<<70, tail::binary>>, nil), do: do_decode_item(tail, <<70>>)
+  defp do_decode_item(<<70, tail::binary>>, result), do: do_decode_item(tail, [<<70>> | result])
+  defp do_decode_item(<<71, tail::binary>>, nil), do: do_decode_item(tail, <<71>>)
+  defp do_decode_item(<<71, tail::binary>>, result), do: do_decode_item(tail, [<<71>> | result])
+  defp do_decode_item(<<72, tail::binary>>, nil), do: do_decode_item(tail, <<72>>)
+  defp do_decode_item(<<72, tail::binary>>, result), do: do_decode_item(tail, [<<72>> | result])
+  defp do_decode_item(<<73, tail::binary>>, nil), do: do_decode_item(tail, <<73>>)
+  defp do_decode_item(<<73, tail::binary>>, result), do: do_decode_item(tail, [<<73>> | result])
+  defp do_decode_item(<<74, tail::binary>>, nil), do: do_decode_item(tail, <<74>>)
+  defp do_decode_item(<<74, tail::binary>>, result), do: do_decode_item(tail, [<<74>> | result])
+  defp do_decode_item(<<75, tail::binary>>, nil), do: do_decode_item(tail, <<75>>)
+  defp do_decode_item(<<75, tail::binary>>, result), do: do_decode_item(tail, [<<75>> | result])
+  defp do_decode_item(<<76, tail::binary>>, nil), do: do_decode_item(tail, <<76>>)
+  defp do_decode_item(<<76, tail::binary>>, result), do: do_decode_item(tail, [<<76>> | result])
+  defp do_decode_item(<<77, tail::binary>>, nil), do: do_decode_item(tail, <<77>>)
+  defp do_decode_item(<<77, tail::binary>>, result), do: do_decode_item(tail, [<<77>> | result])
+  defp do_decode_item(<<78, tail::binary>>, nil), do: do_decode_item(tail, <<78>>)
+  defp do_decode_item(<<78, tail::binary>>, result), do: do_decode_item(tail, [<<78>> | result])
+  defp do_decode_item(<<79, tail::binary>>, nil), do: do_decode_item(tail, <<79>>)
+  defp do_decode_item(<<79, tail::binary>>, result), do: do_decode_item(tail, [<<79>> | result])
+  defp do_decode_item(<<80, tail::binary>>, nil), do: do_decode_item(tail, <<80>>)
+  defp do_decode_item(<<80, tail::binary>>, result), do: do_decode_item(tail, [<<80>> | result])
+  defp do_decode_item(<<81, tail::binary>>, nil), do: do_decode_item(tail, <<81>>)
+  defp do_decode_item(<<81, tail::binary>>, result), do: do_decode_item(tail, [<<81>> | result])
+  defp do_decode_item(<<82, tail::binary>>, nil), do: do_decode_item(tail, <<82>>)
+  defp do_decode_item(<<82, tail::binary>>, result), do: do_decode_item(tail, [<<82>> | result])
+  defp do_decode_item(<<83, tail::binary>>, nil), do: do_decode_item(tail, <<83>>)
+  defp do_decode_item(<<83, tail::binary>>, result), do: do_decode_item(tail, [<<83>> | result])
+  defp do_decode_item(<<84, tail::binary>>, nil), do: do_decode_item(tail, <<84>>)
+  defp do_decode_item(<<84, tail::binary>>, result), do: do_decode_item(tail, [<<84>> | result])
+  defp do_decode_item(<<85, tail::binary>>, nil), do: do_decode_item(tail, <<85>>)
+  defp do_decode_item(<<85, tail::binary>>, result), do: do_decode_item(tail, [<<85>> | result])
+  defp do_decode_item(<<86, tail::binary>>, nil), do: do_decode_item(tail, <<86>>)
+  defp do_decode_item(<<86, tail::binary>>, result), do: do_decode_item(tail, [<<86>> | result])
+  defp do_decode_item(<<87, tail::binary>>, nil), do: do_decode_item(tail, <<87>>)
+  defp do_decode_item(<<87, tail::binary>>, result), do: do_decode_item(tail, [<<87>> | result])
+  defp do_decode_item(<<88, tail::binary>>, nil), do: do_decode_item(tail, <<88>>)
+  defp do_decode_item(<<88, tail::binary>>, result), do: do_decode_item(tail, [<<88>> | result])
+  defp do_decode_item(<<89, tail::binary>>, nil), do: do_decode_item(tail, <<89>>)
+  defp do_decode_item(<<89, tail::binary>>, result), do: do_decode_item(tail, [<<89>> | result])
+  defp do_decode_item(<<90, tail::binary>>, nil), do: do_decode_item(tail, <<90>>)
+  defp do_decode_item(<<90, tail::binary>>, result), do: do_decode_item(tail, [<<90>> | result])
+  defp do_decode_item(<<91, tail::binary>>, nil), do: do_decode_item(tail, <<91>>)
+  defp do_decode_item(<<91, tail::binary>>, result), do: do_decode_item(tail, [<<91>> | result])
+  defp do_decode_item(<<92, tail::binary>>, nil), do: do_decode_item(tail, <<92>>)
+  defp do_decode_item(<<92, tail::binary>>, result), do: do_decode_item(tail, [<<92>> | result])
+  defp do_decode_item(<<93, tail::binary>>, nil), do: do_decode_item(tail, <<93>>)
+  defp do_decode_item(<<93, tail::binary>>, result), do: do_decode_item(tail, [<<93>> | result])
+  defp do_decode_item(<<94, tail::binary>>, nil), do: do_decode_item(tail, <<94>>)
+  defp do_decode_item(<<94, tail::binary>>, result), do: do_decode_item(tail, [<<94>> | result])
+  defp do_decode_item(<<95, tail::binary>>, nil), do: do_decode_item(tail, <<95>>)
+  defp do_decode_item(<<95, tail::binary>>, result), do: do_decode_item(tail, [<<95>> | result])
+  defp do_decode_item(<<96, tail::binary>>, nil), do: do_decode_item(tail, <<96>>)
+  defp do_decode_item(<<96, tail::binary>>, result), do: do_decode_item(tail, [<<96>> | result])
+  defp do_decode_item(<<97, tail::binary>>, nil), do: do_decode_item(tail, <<97>>)
+  defp do_decode_item(<<97, tail::binary>>, result), do: do_decode_item(tail, [<<97>> | result])
+  defp do_decode_item(<<98, tail::binary>>, nil), do: do_decode_item(tail, <<98>>)
+  defp do_decode_item(<<98, tail::binary>>, result), do: do_decode_item(tail, [<<98>> | result])
+  defp do_decode_item(<<99, tail::binary>>, nil), do: do_decode_item(tail, <<99>>)
+  defp do_decode_item(<<99, tail::binary>>, result), do: do_decode_item(tail, [<<99>> | result])
+  defp do_decode_item(<<100, tail::binary>>, nil), do: do_decode_item(tail, <<100>>)
+  defp do_decode_item(<<100, tail::binary>>, result), do: do_decode_item(tail, [<<100>> | result])
+  defp do_decode_item(<<101, tail::binary>>, nil), do: do_decode_item(tail, <<101>>)
+  defp do_decode_item(<<101, tail::binary>>, result), do: do_decode_item(tail, [<<101>> | result])
+  defp do_decode_item(<<102, tail::binary>>, nil), do: do_decode_item(tail, <<102>>)
+  defp do_decode_item(<<102, tail::binary>>, result), do: do_decode_item(tail, [<<102>> | result])
+  defp do_decode_item(<<103, tail::binary>>, nil), do: do_decode_item(tail, <<103>>)
+  defp do_decode_item(<<103, tail::binary>>, result), do: do_decode_item(tail, [<<103>> | result])
+  defp do_decode_item(<<104, tail::binary>>, nil), do: do_decode_item(tail, <<104>>)
+  defp do_decode_item(<<104, tail::binary>>, result), do: do_decode_item(tail, [<<104>> | result])
+  defp do_decode_item(<<105, tail::binary>>, nil), do: do_decode_item(tail, <<105>>)
+  defp do_decode_item(<<105, tail::binary>>, result), do: do_decode_item(tail, [<<105>> | result])
+  defp do_decode_item(<<106, tail::binary>>, nil), do: do_decode_item(tail, <<106>>)
+  defp do_decode_item(<<106, tail::binary>>, result), do: do_decode_item(tail, [<<106>> | result])
+  defp do_decode_item(<<107, tail::binary>>, nil), do: do_decode_item(tail, <<107>>)
+  defp do_decode_item(<<107, tail::binary>>, result), do: do_decode_item(tail, [<<107>> | result])
+  defp do_decode_item(<<108, tail::binary>>, nil), do: do_decode_item(tail, <<108>>)
+  defp do_decode_item(<<108, tail::binary>>, result), do: do_decode_item(tail, [<<108>> | result])
+  defp do_decode_item(<<109, tail::binary>>, nil), do: do_decode_item(tail, <<109>>)
+  defp do_decode_item(<<109, tail::binary>>, result), do: do_decode_item(tail, [<<109>> | result])
+  defp do_decode_item(<<110, tail::binary>>, nil), do: do_decode_item(tail, <<110>>)
+  defp do_decode_item(<<110, tail::binary>>, result), do: do_decode_item(tail, [<<110>> | result])
+  defp do_decode_item(<<111, tail::binary>>, nil), do: do_decode_item(tail, <<111>>)
+  defp do_decode_item(<<111, tail::binary>>, result), do: do_decode_item(tail, [<<111>> | result])
+  defp do_decode_item(<<112, tail::binary>>, nil), do: do_decode_item(tail, <<112>>)
+  defp do_decode_item(<<112, tail::binary>>, result), do: do_decode_item(tail, [<<112>> | result])
+  defp do_decode_item(<<113, tail::binary>>, nil), do: do_decode_item(tail, <<113>>)
+  defp do_decode_item(<<113, tail::binary>>, result), do: do_decode_item(tail, [<<113>> | result])
+  defp do_decode_item(<<114, tail::binary>>, nil), do: do_decode_item(tail, <<114>>)
+  defp do_decode_item(<<114, tail::binary>>, result), do: do_decode_item(tail, [<<114>> | result])
+  defp do_decode_item(<<115, tail::binary>>, nil), do: do_decode_item(tail, <<115>>)
+  defp do_decode_item(<<115, tail::binary>>, result), do: do_decode_item(tail, [<<115>> | result])
+  defp do_decode_item(<<116, tail::binary>>, nil), do: do_decode_item(tail, <<116>>)
+  defp do_decode_item(<<116, tail::binary>>, result), do: do_decode_item(tail, [<<116>> | result])
+  defp do_decode_item(<<117, tail::binary>>, nil), do: do_decode_item(tail, <<117>>)
+  defp do_decode_item(<<117, tail::binary>>, result), do: do_decode_item(tail, [<<117>> | result])
+  defp do_decode_item(<<118, tail::binary>>, nil), do: do_decode_item(tail, <<118>>)
+  defp do_decode_item(<<118, tail::binary>>, result), do: do_decode_item(tail, [<<118>> | result])
+  defp do_decode_item(<<119, tail::binary>>, nil), do: do_decode_item(tail, <<119>>)
+  defp do_decode_item(<<119, tail::binary>>, result), do: do_decode_item(tail, [<<119>> | result])
+  defp do_decode_item(<<120, tail::binary>>, nil), do: do_decode_item(tail, <<120>>)
+  defp do_decode_item(<<120, tail::binary>>, result), do: do_decode_item(tail, [<<120>> | result])
+  defp do_decode_item(<<121, tail::binary>>, nil), do: do_decode_item(tail, <<121>>)
+  defp do_decode_item(<<121, tail::binary>>, result), do: do_decode_item(tail, [<<121>> | result])
+  defp do_decode_item(<<122, tail::binary>>, nil), do: do_decode_item(tail, <<122>>)
+  defp do_decode_item(<<122, tail::binary>>, result), do: do_decode_item(tail, [<<122>> | result])
+  defp do_decode_item(<<123, tail::binary>>, nil), do: do_decode_item(tail, <<123>>)
+  defp do_decode_item(<<123, tail::binary>>, result), do: do_decode_item(tail, [<<123>> | result])
+  defp do_decode_item(<<124, tail::binary>>, nil), do: do_decode_item(tail, <<124>>)
+  defp do_decode_item(<<124, tail::binary>>, result), do: do_decode_item(tail, [<<124>> | result])
+  defp do_decode_item(<<125, tail::binary>>, nil), do: do_decode_item(tail, <<125>>)
+  defp do_decode_item(<<125, tail::binary>>, result), do: do_decode_item(tail, [<<125>> | result])
+  defp do_decode_item(<<126, tail::binary>>, nil), do: do_decode_item(tail, <<126>>)
+  defp do_decode_item(<<126, tail::binary>>, result), do: do_decode_item(tail, [<<126>> | result])
+  defp do_decode_item(<<127, tail::binary>>, nil), do: do_decode_item(tail, <<127>>)
+  defp do_decode_item(<<127, tail::binary>>, result), do: do_decode_item(tail, [<<127>> | result])
+  ##
+  ## FINISHED HANDLING 0 - 127
+  ##
+
+  ##
+  ## HANDLING 128 - 183
+  ##
+  defp do_decode_item(<<128, tail::binary>>, nil) do
+    item_length = 128 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<128, tail::binary>>, result) do
+    item_length = 128 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<129, tail::binary>>, nil) do
+    item_length = 129 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<129, tail::binary>>, result) do
+    item_length = 129 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<130, tail::binary>>, nil) do
+    item_length = 130 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<130, tail::binary>>, result) do
+    item_length = 130 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<131, tail::binary>>, nil) do
+    item_length = 131 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<131, tail::binary>>, result) do
+    item_length = 131 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<132, tail::binary>>, nil) do
+    item_length = 132 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<132, tail::binary>>, result) do
+    item_length = 132 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<133, tail::binary>>, nil) do
+    item_length = 133 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<133, tail::binary>>, result) do
+    item_length = 133 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<134, tail::binary>>, nil) do
+    item_length = 134 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<134, tail::binary>>, result) do
+    item_length = 134 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<135, tail::binary>>, nil) do
+    item_length = 135 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<135, tail::binary>>, result) do
+    item_length = 135 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<136, tail::binary>>, nil) do
+    item_length = 136 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<136, tail::binary>>, result) do
+    item_length = 136 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<137, tail::binary>>, nil) do
+    item_length = 137 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<137, tail::binary>>, result) do
+    item_length = 137 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<138, tail::binary>>, nil) do
+    item_length = 138 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<138, tail::binary>>, result) do
+    item_length = 138 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<139, tail::binary>>, nil) do
+    item_length = 139 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<139, tail::binary>>, result) do
+    item_length = 139 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<140, tail::binary>>, nil) do
+    item_length = 140 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<140, tail::binary>>, result) do
+    item_length = 140 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<141, tail::binary>>, nil) do
+    item_length = 141 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<141, tail::binary>>, result) do
+    item_length = 141 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<142, tail::binary>>, nil) do
+    item_length = 142 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<142, tail::binary>>, result) do
+    item_length = 142 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<143, tail::binary>>, nil) do
+    item_length = 143 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<143, tail::binary>>, result) do
+    item_length = 143 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<144, tail::binary>>, nil) do
+    item_length = 144 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<144, tail::binary>>, result) do
+    item_length = 144 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<145, tail::binary>>, nil) do
+    item_length = 145 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<145, tail::binary>>, result) do
+    item_length = 145 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<146, tail::binary>>, nil) do
+    item_length = 146 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<146, tail::binary>>, result) do
+    item_length = 146 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<147, tail::binary>>, nil) do
+    item_length = 147 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<147, tail::binary>>, result) do
+    item_length = 147 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<148, tail::binary>>, nil) do
+    item_length = 148 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<148, tail::binary>>, result) do
+    item_length = 148 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<149, tail::binary>>, nil) do
+    item_length = 149 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<149, tail::binary>>, result) do
+    item_length = 149 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<150, tail::binary>>, nil) do
+    item_length = 150 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<150, tail::binary>>, result) do
+    item_length = 150 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<151, tail::binary>>, nil) do
+    item_length = 151 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<151, tail::binary>>, result) do
+    item_length = 151 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<152, tail::binary>>, nil) do
+    item_length = 152 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<152, tail::binary>>, result) do
+    item_length = 152 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<153, tail::binary>>, nil) do
+    item_length = 153 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<153, tail::binary>>, result) do
+    item_length = 153 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<154, tail::binary>>, nil) do
+    item_length = 154 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<154, tail::binary>>, result) do
+    item_length = 154 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<155, tail::binary>>, nil) do
+    item_length = 155 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<155, tail::binary>>, result) do
+    item_length = 155 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<156, tail::binary>>, nil) do
+    item_length = 156 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<156, tail::binary>>, result) do
+    item_length = 156 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<157, tail::binary>>, nil) do
+    item_length = 157 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<157, tail::binary>>, result) do
+    item_length = 157 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<158, tail::binary>>, nil) do
+    item_length = 158 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<158, tail::binary>>, result) do
+    item_length = 158 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<159, tail::binary>>, nil) do
+    item_length = 159 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<159, tail::binary>>, result) do
+    item_length = 159 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<160, tail::binary>>, nil) do
+    item_length = 160 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<160, tail::binary>>, result) do
+    item_length = 160 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<161, tail::binary>>, nil) do
+    item_length = 161 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<161, tail::binary>>, result) do
+    item_length = 161 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<162, tail::binary>>, nil) do
+    item_length = 162 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<162, tail::binary>>, result) do
+    item_length = 162 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<163, tail::binary>>, nil) do
+    item_length = 163 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<163, tail::binary>>, result) do
+    item_length = 163 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<164, tail::binary>>, nil) do
+    item_length = 164 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<164, tail::binary>>, result) do
+    item_length = 164 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<165, tail::binary>>, nil) do
+    item_length = 165 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<165, tail::binary>>, result) do
+    item_length = 165 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<166, tail::binary>>, nil) do
+    item_length = 166 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<166, tail::binary>>, result) do
+    item_length = 166 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<167, tail::binary>>, nil) do
+    item_length = 167 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<167, tail::binary>>, result) do
+    item_length = 167 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<168, tail::binary>>, nil) do
+    item_length = 168 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<168, tail::binary>>, result) do
+    item_length = 168 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<169, tail::binary>>, nil) do
+    item_length = 169 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<169, tail::binary>>, result) do
+    item_length = 169 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<170, tail::binary>>, nil) do
+    item_length = 170 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<170, tail::binary>>, result) do
+    item_length = 170 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<171, tail::binary>>, nil) do
+    item_length = 171 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<171, tail::binary>>, result) do
+    item_length = 171 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<172, tail::binary>>, nil) do
+    item_length = 172 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<172, tail::binary>>, result) do
+    item_length = 172 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<173, tail::binary>>, nil) do
+    item_length = 173 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<173, tail::binary>>, result) do
+    item_length = 173 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<174, tail::binary>>, nil) do
+    item_length = 174 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<174, tail::binary>>, result) do
+    item_length = 174 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<175, tail::binary>>, nil) do
+    item_length = 175 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<175, tail::binary>>, result) do
+    item_length = 175 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<176, tail::binary>>, nil) do
+    item_length = 176 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<176, tail::binary>>, result) do
+    item_length = 176 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<177, tail::binary>>, nil) do
+    item_length = 177 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<177, tail::binary>>, result) do
+    item_length = 177 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<178, tail::binary>>, nil) do
+    item_length = 178 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<178, tail::binary>>, result) do
+    item_length = 178 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<179, tail::binary>>, nil) do
+    item_length = 179 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<179, tail::binary>>, result) do
+    item_length = 179 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<180, tail::binary>>, nil) do
+    item_length = 180 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<180, tail::binary>>, result) do
+    item_length = 180 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<181, tail::binary>>, nil) do
+    item_length = 181 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<181, tail::binary>>, result) do
+    item_length = 181 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<182, tail::binary>>, nil) do
+    item_length = 182 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<182, tail::binary>>, result) do
+    item_length = 182 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_item(<<183, tail::binary>>, nil) do
+    item_length = 183 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, item)
+  end
+
+  defp do_decode_item(<<183, tail::binary>>, result) do
+    item_length = 183 - 128
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  ##
+  ## FINISHED HANDLING 128-183
+  ##
+
+  # decode_long_binary - CAN'T OPTIMISE FOR NOW
+  defp do_decode_item(<<be_size_prefix, tail::binary>>, nil) when be_size_prefix < 192 do
+    {new_item, new_tail} = decode_long_binary(be_size_prefix - 183, tail)
+
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<be_size_prefix, tail::binary>>, result) when be_size_prefix < 192 do
+    {new_item, new_tail} = decode_long_binary(be_size_prefix - 183, tail)
+
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  ##
+  ## HANDLING 192-247
+  ##
+  defp do_decode_item(<<192, tail::binary>>, nil) do
+    do_decode_item(tail, [])
+  end
+
+  defp do_decode_item(<<192, tail::binary>>, result) do
+    do_decode_item(tail, [[] | result])
+  end
+
+  defp do_decode_item(<<193, tail::binary>>, nil) do
+    item_length = 193 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<193, tail::binary>>, result) do
+    item_length = 193 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<194, tail::binary>>, nil) do
+    item_length = 194 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<194, tail::binary>>, result) do
+    item_length = 194 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<195, tail::binary>>, nil) do
+    item_length = 195 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<195, tail::binary>>, result) do
+    item_length = 195 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<196, tail::binary>>, nil) do
+    item_length = 196 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<196, tail::binary>>, result) do
+    item_length = 196 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<197, tail::binary>>, nil) do
+    item_length = 197 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<197, tail::binary>>, result) do
+    item_length = 197 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<198, tail::binary>>, nil) do
+    item_length = 198 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<198, tail::binary>>, result) do
+    item_length = 198 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<199, tail::binary>>, nil) do
+    item_length = 199 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<199, tail::binary>>, result) do
+    item_length = 199 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<200, tail::binary>>, nil) do
+    item_length = 200 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<200, tail::binary>>, result) do
+    item_length = 200 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<201, tail::binary>>, nil) do
+    item_length = 201 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<201, tail::binary>>, result) do
+    item_length = 201 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<202, tail::binary>>, nil) do
+    item_length = 202 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<202, tail::binary>>, result) do
+    item_length = 202 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<203, tail::binary>>, nil) do
+    item_length = 203 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<203, tail::binary>>, result) do
+    item_length = 203 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<204, tail::binary>>, nil) do
+    item_length = 204 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<204, tail::binary>>, result) do
+    item_length = 204 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<205, tail::binary>>, nil) do
+    item_length = 205 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<205, tail::binary>>, result) do
+    item_length = 205 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<206, tail::binary>>, nil) do
+    item_length = 206 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<206, tail::binary>>, result) do
+    item_length = 206 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<207, tail::binary>>, nil) do
+    item_length = 207 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<207, tail::binary>>, result) do
+    item_length = 207 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<208, tail::binary>>, nil) do
+    item_length = 208 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<208, tail::binary>>, result) do
+    item_length = 208 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<209, tail::binary>>, nil) do
+    item_length = 209 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<209, tail::binary>>, result) do
+    item_length = 209 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<210, tail::binary>>, nil) do
+    item_length = 210 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<210, tail::binary>>, result) do
+    item_length = 210 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<211, tail::binary>>, nil) do
+    item_length = 211 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<211, tail::binary>>, result) do
+    item_length = 211 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<212, tail::binary>>, nil) do
+    item_length = 212 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<212, tail::binary>>, result) do
+    item_length = 212 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<213, tail::binary>>, nil) do
+    item_length = 213 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<213, tail::binary>>, result) do
+    item_length = 213 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<214, tail::binary>>, nil) do
+    item_length = 214 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<214, tail::binary>>, result) do
+    item_length = 214 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<215, tail::binary>>, nil) do
+    item_length = 215 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<215, tail::binary>>, result) do
+    item_length = 215 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<216, tail::binary>>, nil) do
+    item_length = 216 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<216, tail::binary>>, result) do
+    item_length = 216 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<217, tail::binary>>, nil) do
+    item_length = 217 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<217, tail::binary>>, result) do
+    item_length = 217 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<218, tail::binary>>, nil) do
+    item_length = 218 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<218, tail::binary>>, result) do
+    item_length = 218 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<219, tail::binary>>, nil) do
+    item_length = 219 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<219, tail::binary>>, result) do
+    item_length = 219 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<220, tail::binary>>, nil) do
+    item_length = 220 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<220, tail::binary>>, result) do
+    item_length = 220 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<221, tail::binary>>, nil) do
+    item_length = 221 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<221, tail::binary>>, result) do
+    item_length = 221 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<222, tail::binary>>, nil) do
+    item_length = 222 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<222, tail::binary>>, result) do
+    item_length = 222 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<223, tail::binary>>, nil) do
+    item_length = 223 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<223, tail::binary>>, result) do
+    item_length = 223 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<224, tail::binary>>, nil) do
+    item_length = 224 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<224, tail::binary>>, result) do
+    item_length = 224 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<225, tail::binary>>, nil) do
+    item_length = 225 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<225, tail::binary>>, result) do
+    item_length = 225 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<226, tail::binary>>, nil) do
+    item_length = 226 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<226, tail::binary>>, result) do
+    item_length = 226 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<227, tail::binary>>, nil) do
+    item_length = 227 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<227, tail::binary>>, result) do
+    item_length = 227 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<228, tail::binary>>, nil) do
+    item_length = 228 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<228, tail::binary>>, result) do
+    item_length = 228 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<229, tail::binary>>, nil) do
+    item_length = 229 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<229, tail::binary>>, result) do
+    item_length = 229 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<230, tail::binary>>, nil) do
+    item_length = 230 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<230, tail::binary>>, result) do
+    item_length = 230 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<231, tail::binary>>, nil) do
+    item_length = 231 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<231, tail::binary>>, result) do
+    item_length = 231 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<232, tail::binary>>, nil) do
+    item_length = 232 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<232, tail::binary>>, result) do
+    item_length = 232 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<233, tail::binary>>, nil) do
+    item_length = 233 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<233, tail::binary>>, result) do
+    item_length = 233 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<234, tail::binary>>, nil) do
+    item_length = 234 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<234, tail::binary>>, result) do
+    item_length = 234 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<235, tail::binary>>, nil) do
+    item_length = 235 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<235, tail::binary>>, result) do
+    item_length = 235 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<236, tail::binary>>, nil) do
+    item_length = 236 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<236, tail::binary>>, result) do
+    item_length = 236 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<237, tail::binary>>, nil) do
+    item_length = 237 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<237, tail::binary>>, result) do
+    item_length = 237 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<238, tail::binary>>, nil) do
+    item_length = 238 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<238, tail::binary>>, result) do
+    item_length = 238 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<239, tail::binary>>, nil) do
+    item_length = 239 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<239, tail::binary>>, result) do
+    item_length = 239 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<240, tail::binary>>, nil) do
+    item_length = 240 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<240, tail::binary>>, result) do
+    item_length = 240 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<241, tail::binary>>, nil) do
+    item_length = 241 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<241, tail::binary>>, result) do
+    item_length = 241 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<242, tail::binary>>, nil) do
+    item_length = 242 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<242, tail::binary>>, result) do
+    item_length = 242 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<243, tail::binary>>, nil) do
+    item_length = 243 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<243, tail::binary>>, result) do
+    item_length = 243 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<244, tail::binary>>, nil) do
+    item_length = 244 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<244, tail::binary>>, result) do
+    item_length = 244 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<245, tail::binary>>, nil) do
+    item_length = 245 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<245, tail::binary>>, result) do
+    item_length = 245 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<246, tail::binary>>, nil) do
+    item_length = 246 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<246, tail::binary>>, result) do
+    item_length = 246 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  defp do_decode_item(<<247, tail::binary>>, nil) do
+    item_length = 247 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = Enum.reverse(decode_item(item, []))
+    do_decode_item(new_tail, new_item)
+  end
+
+  defp do_decode_item(<<247, tail::binary>>, result) do
+    item_length = 247 - 192
+    <<item::binary-size(item_length), new_tail::binary>> = tail
+    new_item = decode_item(item, [])
+    do_decode_item(new_tail, [new_item | result])
+  end
+
+  ##
+  ## FINISHED HANDLING 192-247
+  ##
+
+  # decode_long_binary - CAN'T OPTIMISE FOR NOW
+  defp do_decode_item(<<be_size_prefix, tail::binary>>, nil) do
+    {list, new_tail} = decode_long_binary(be_size_prefix - 247, tail)
+
+    new_result = Enum.reverse(decode_item(list, []))
+
+    do_decode_item(new_tail, new_result)
+  end
+
+  defp do_decode_item(<<be_size_prefix, tail::binary>>, result) do
+    {list, new_tail} = decode_long_binary(be_size_prefix - 247, tail)
+
+    new_result = decode_item(list, [])
+
+    do_decode_item(new_tail, [new_result | result])
+  end
+
+  defp do_decode_item(<<>>, result) when is_list(result) do
+    Enum.reverse(result)
+  end
+
+  defp do_decode_item(<<>>, result), do: result
+
+  @spec decode_long_binary(integer(), binary()) :: {binary(), binary()}
+  defp decode_long_binary(be_size, tail) do
+    <<be::binary-size(be_size), data::binary>> = tail
+
+    item_length = :binary.decode_unsigned(be)
+
+    <<item::binary-size(item_length), new_tail::binary>> = data
+
+    {item, new_tail}
+  end
+end
