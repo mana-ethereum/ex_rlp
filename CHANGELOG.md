@@ -1,5 +1,7 @@
+# 0.4.1
+* Fix decoding of large binary lists introduced by changes in 0.4.0. (https://github.com/mana-ethereum/ex_rlp/pull/17)
 # 0.4.0
-* Improve speed with list prefixing and tail-call optimizations.
+* Improve speed with list prefixing and tail-call optimizations. (https://github.com/mana-ethereum/ex_rlp/pull/15)
 # 0.3.1
 * Upgrade elixir version. (https://github.com/exthereum/ex_rlp/pull/14)
 # 0.3.0
