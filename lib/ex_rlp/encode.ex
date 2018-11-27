@@ -24,8 +24,8 @@ defimpl ExRLP.Encode, for: BitString do
   end
 
   defp encode_item(item) when is_binary(item) do
-    be_size = item |> Utils.big_endian_size()
-    byte_size = be_size |> byte_size
+    be_size = Utils.big_endian_size(item)
+    byte_size = byte_size(be_size)
 
     <<183 + byte_size>> <> be_size <> item
   end
@@ -48,7 +48,7 @@ defimpl ExRLP.Encode, for: Integer do
   end
 
   defp to_binary(object) when is_integer(object) and object > 0 do
-    object |> :binary.encode_unsigned()
+    :binary.encode_unsigned(object)
   end
 end
 
@@ -64,25 +64,25 @@ defimpl ExRLP.Encode, for: List do
 
   @spec encode_items([ExRLP.t()], binary()) :: binary()
   defp encode_items([], acc) do
-    acc |> prefix_list
+    prefix_list(acc)
   end
 
   defp encode_items([item | tail], acc) do
-    encoded_item = item |> Encode.encode()
+    encoded_item = Encode.encode(item)
 
-    tail |> encode_items(acc <> encoded_item)
+    encode_items(tail, acc <> encoded_item)
   end
 
   @spec prefix_list(binary()) :: binary()
   defp prefix_list(encoded_concat) when byte_size(encoded_concat) < 56 do
-    size = encoded_concat |> byte_size
+    size = byte_size(encoded_concat)
 
     <<192 + size>> <> encoded_concat
   end
 
   defp prefix_list(encoded_concat) do
-    be_size = encoded_concat |> Utils.big_endian_size()
-    byte_size = be_size |> byte_size
+    be_size = Utils.big_endian_size(encoded_concat)
+    byte_size = byte_size(be_size)
 
     <<247 + byte_size>> <> be_size <> encoded_concat
   end
