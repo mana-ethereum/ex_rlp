@@ -32,7 +32,7 @@ defmodule ExRLP.Decode do
   end
 
   defp decode_item(<<(<<prefix>>), tail::binary>>, result) when prefix <= 183 do
-    {new_item, new_tail} = decode_medium_binary(prefix, tail, 128)
+    {new_item, new_tail} = decode_medium_binary(tail, prefix, 128)
 
     new_result = add_new_item(result, new_item)
 
@@ -40,7 +40,7 @@ defmodule ExRLP.Decode do
   end
 
   defp decode_item(<<(<<be_size_prefix>>), tail::binary>>, result) when be_size_prefix < 192 do
-    {new_item, new_tail} = decode_long_binary(be_size_prefix, tail, 183)
+    {new_item, new_tail} = decode_long_binary(tail, be_size_prefix, 183)
 
     new_result = add_new_item(result, new_item)
 
@@ -56,7 +56,7 @@ defmodule ExRLP.Decode do
   end
 
   defp decode_item(<<(<<prefix>>), tail::binary>>, result) when prefix <= 247 do
-    {list, new_tail} = decode_medium_binary(prefix, tail, 192)
+    {list, new_tail} = decode_medium_binary(tail, prefix, 192)
 
     new_result = add_decoded_list(result, list)
 
@@ -64,9 +64,9 @@ defmodule ExRLP.Decode do
   end
 
   defp decode_item(<<(<<be_size_prefix>>), tail::binary>>, result) do
-    {list, new_tail} = decode_long_binary(be_size_prefix, tail, 247)
+    {list, new_tail} = decode_long_binary(tail, be_size_prefix, 247)
 
-    new_result = result |> add_decoded_list(list)
+    new_result = add_decoded_list(result, list)
 
     decode_item(new_tail, new_result)
   end
@@ -93,23 +93,36 @@ defmodule ExRLP.Decode do
     [list_items | result]
   end
 
-  @spec decode_medium_binary(integer(), binary(), integer()) :: {binary(), binary()}
-  defp decode_medium_binary(length_prefix, tail, prefix) do
+  @spec decode_medium_binary(binary(), integer(), integer()) :: {binary(), binary()}
+  defp decode_medium_binary(tail, length_prefix, prefix) do
     item_length = length_prefix - prefix
-    <<item::binary-size(item_length), new_tail::binary>> = tail
 
-    {item, new_tail}
+    fetch_head_and_tail(tail, item_length)
   end
 
-  @spec decode_long_binary(integer(), binary(), integer()) :: {binary(), binary()}
-  defp decode_long_binary(be_size_prefix, tail, prefix) do
+  @spec decode_long_binary(binary(), integer(), integer()) :: {binary(), binary()}
+  defp decode_long_binary(tail, be_size_prefix, prefix) do
     be_size = be_size_prefix - prefix
-    <<be::binary-size(be_size), data::binary>> = tail
+
+    {data, item_length} = fetch_length_and_tail(tail, be_size)
+
+    fetch_head_and_tail(data, item_length)
+  end
+
+  @spec fetch_length_and_tail(binary(), integer()) :: {binary(), integer()}
+  defp fetch_length_and_tail(data, length_size) do
+    <<be::binary-size(length_size), data::binary>> = data
 
     item_length = :binary.decode_unsigned(be)
-    <<item::binary-size(item_length), new_tail::binary>> = data
 
-    {item, new_tail}
+    {data, item_length}
+  end
+
+  @spec fetch_head_and_tail(binary(), integer()) :: {binary(), binary()}
+  defp fetch_head_and_tail(data, head_length) do
+    <<head::binary-size(head_length), tail::binary>> = data
+
+    {head, tail}
   end
 
   @spec decode_hex(binary()) :: binary()
