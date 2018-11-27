@@ -10,7 +10,7 @@ defmodule ExRLP.Decode do
 
   @spec unencode(binary(), atom()) :: binary()
   defp unencode(value, :binary), do: value
-  defp unencode(value, :hex), do: Base.decode16!(value, case: :lower)
+  defp unencode(value, :hex), do: decode_hex(value)
 
   @spec decode_item(binary(), ExRLP.t()) :: ExRLP.t()
   defp decode_item(rlp_binary, result \\ nil)
