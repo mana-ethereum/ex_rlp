@@ -1,3 +1,5 @@
+# 0.5.0
+* Optimize decoding (https://github.com/mana-ethereum/ex_rlp/pull/19)
 # 0.4.1
 * Fix decoding of large binary lists introduced by changes in 0.4.0. (https://github.com/mana-ethereum/ex_rlp/pull/17)
 # 0.4.0
