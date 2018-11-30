@@ -10,9 +10,19 @@ defmodule ExRLP.Utils do
     binary |> Base.encode16(case: :lower)
   end
 
-  @spec big_endian_size(binary()) :: bitstring()
-  def big_endian_size(binary) do
+  @spec big_endian_size(binary(), boolean()) :: bitstring()
+  def big_endian_size(binary, trim_trailing_zeroes \\ false)
+
+  def big_endian_size(binary, false) do
     binary
+    |> byte_size
+    |> :binary.encode_unsigned()
+  end
+
+  def big_endian_size(binary, true) do
+    binary
+    |> :binary.decode_unsigned(:little)
+    |> :binary.encode_unsigned(:big)
     |> byte_size
     |> :binary.encode_unsigned()
   end
