@@ -14,12 +14,24 @@ defmodule ExRLP.TestUtils do
     num
   end
 
+  def normalize_data("0x" <> number) do
+    Base.decode16!(number, case: :lower)
+  end
+
+  def normalize_data(data) when is_list(data) do
+    Enum.map(data, &normalize_data/1)
+  end
+
   def normalize_data(input), do: input
 
   def normalize_decoded_data(input, output, acc \\ [])
 
   def normalize_decoded_data(input, output, _) when is_number(output) do
-    input |> :binary.decode_unsigned()
+    :binary.decode_unsigned(input)
+  end
+
+  def normalize_decoded_data("0x" <> input, _output, _) do
+    Base.decode16!(input, case: :lower)
   end
 
   def normalize_decoded_data([], [], acc), do: acc
