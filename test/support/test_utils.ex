@@ -34,12 +34,12 @@ defmodule ExRLP.TestUtils do
     Base.decode16!(input, case: :lower)
   end
 
-  def normalize_decoded_data([], [], acc), do: acc
+  def normalize_decoded_data([], [], acc), do: Enum.reverse(acc)
 
   def normalize_decoded_data([in_head | in_tail], [out_head | out_tail], acc) do
     normalized_item = normalize_decoded_data(in_head, out_head)
 
-    normalize_decoded_data(in_tail, out_tail, acc ++ [normalized_item])
+    normalize_decoded_data(in_tail, out_tail, [normalized_item | acc])
   end
 
   def normalize_decoded_data(input, _output, _acc), do: input
