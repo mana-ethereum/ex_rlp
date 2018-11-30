@@ -1,3 +1,5 @@
+# 0.5.1
+* Fix encoding of binary lists with trailing zeroes (https://github.com/mana-ethereum/ex_rlp/pull/20)
 # 0.5.0
 * Optimize decoding (https://github.com/mana-ethereum/ex_rlp/pull/19)
 # 0.4.1
