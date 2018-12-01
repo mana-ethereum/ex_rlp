@@ -7,7 +7,7 @@ defmodule ExRLP.Utils do
 
   @spec encode_hex(binary()) :: binary()
   def encode_hex(binary) do
-    binary |> Base.encode16(case: :lower)
+    Base.encode16(binary, case: :lower)
   end
 
   @spec big_endian_size(binary(), boolean()) :: bitstring()
