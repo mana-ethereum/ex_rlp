@@ -23,7 +23,7 @@ defimpl ExRLP.Encode, for: BitString do
     <<prefix>> <> item
   end
 
-  defp encode_item(item) when is_binary(item) do
+  defp encode_item(item) do
     be_size = Utils.big_endian_size(item)
     byte_size = byte_size(be_size)
 
@@ -35,7 +35,7 @@ defimpl ExRLP.Encode, for: Integer do
   alias ExRLP.{Utils, Encode}
 
   @spec encode(ExRLP.t(), keyword()) :: binary()
-  def encode(value, options \\ []) when value >= 0 do
+  def encode(value, options \\ []) do
     value
     |> to_binary()
     |> Encode.encode()
@@ -43,11 +43,9 @@ defimpl ExRLP.Encode, for: Integer do
   end
 
   @spec to_binary(integer()) :: binary()
-  defp to_binary(object) when is_integer(object) and object == 0 do
-    ""
-  end
+  defp to_binary(0), do: ""
 
-  defp to_binary(object) when is_integer(object) and object > 0 do
+  defp to_binary(object) do
     :binary.encode_unsigned(object)
   end
 end
