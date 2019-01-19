@@ -14,11 +14,11 @@ defmodule ExRLP.DecodeTest do
 
         result =
           input
-          |> normalize_data()
-          |> Decode.decode()
+          |> Decode.decode(encoding: :hex)
           |> normalize_decoded_data(expected_result)
 
-        assert result == expected_result, "#{test_name} failed"
+        assert result == expected_result,
+               "Test for #{test_name} failed, expected #{result} to equal to #{expected_result}"
       end)
     end
 

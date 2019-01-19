@@ -79,7 +79,7 @@ defimpl ExRLP.Encode, for: List do
   end
 
   defp prefix_list(encoded_concat) do
-    be_size = Utils.big_endian_size(encoded_concat, true)
+    be_size = Utils.big_endian_size(encoded_concat)
     byte_size = byte_size(be_size)
 
     <<247 + byte_size>> <> be_size <> encoded_concat
