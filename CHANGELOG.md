@@ -1,3 +1,6 @@
+# 0.5.2
+* reverts https://github.com/mana-ethereum/ex_rlp/pull/20 which introduced encoding bug (https://github.com/mana-ethereum/ex_rlp/pull/22)
+* defensive guard checking in encoder (https://github.com/mana-ethereum/ex_rlp/pull/21)
 # 0.5.1
 * Fix encoding of binary lists with trailing zeroes (https://github.com/mana-ethereum/ex_rlp/pull/20)
 # 0.5.0
