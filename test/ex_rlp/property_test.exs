@@ -20,4 +20,25 @@ defmodule ExRLP.PropTest do
       :lists.sort(mapsto) == :lists.usort(mapsto)
     end
   end
+
+  property "for any string encoding is one to one", [1000, :verbose, max_size: 100] do
+    forall l <- binary() do
+      encoded = ExRLP.encode(l)
+      decoded = ExRLP.decode(encoded)
+      l == decoded
+    end
+  end
+
+  property "for lists encoding is one to one", [1000, :verbose, max_size: 100] do
+    forall l <-
+             union([
+               list(binary()),
+               binary(),
+               union([list(binary()), binary(), union([list(binary()), binary()])])
+             ]) do
+      encoded = ExRLP.encode(l)
+      decoded = ExRLP.decode(encoded)
+      l == decoded
+    end
+  end
 end
