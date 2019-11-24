@@ -1,4 +1,4 @@
-# ExRLP [![CircleCI](https://circleci.com/gh/exthereum/ex_rlp.svg?style=svg)](https://circleci.com/gh/exthereum/ex_rlp)
+# ExRLP [![CircleCI](https://circleci.com/gh/mana-ethereum/ex_rlp.svg?style=svg)](https://circleci.com/gh/mana-ethereum/ex_rlp)
 
 Elixir implementation of Ethereum's RLP (Recursive Length Prefix) encoding
 
