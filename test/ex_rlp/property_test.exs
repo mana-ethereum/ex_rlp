@@ -4,6 +4,8 @@ defmodule ExRLP.PropTest do
   use PropCheck
   use ExUnit.Case
 
+  @moduletag timeout: 120_000
+
   def safe_decode(binary) do
     try do
       ExRLP.decode(binary)
@@ -46,8 +48,8 @@ defmodule ExRLP.PropTest do
     forall l <-
              union([
                list(binary()),
-               binary(),
-               union([list(binary()), binary(), union([list(binary()), binary()])])
+               list(union([binary(), list(binary())])),
+               list(union([binary(), list(binary()), list(union([binary(), list(binary())]))]))
              ]) do
       encoded = ExRLP.encode(l)
       decoded = ExRLP.decode(encoded)
