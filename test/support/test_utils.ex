@@ -43,4 +43,10 @@ defmodule ExRLP.TestUtils do
   end
 
   def normalize_decoded_data(input, _output, _acc), do: input
+
+  # this is a taylored version to decode from the invalidRLPTest.json cases
+  def normalize_invalid_case_data("0x" <> encoded), do: Base.decode16!(encoded, case: :mixed)
+
+  def normalize_invalid_case_data(encoded) when is_binary(encoded),
+    do: Base.decode16!(encoded, case: :mixed)
 end
