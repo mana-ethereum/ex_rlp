@@ -1,3 +1,6 @@
+# 0.5.3
+* Handle invalid RLP when decoding (with respective tests from [ethereum/tests](https://github.com/ethereum/tests/blob/develop/RLPTests/invalidRLPTest.json)) (https://github.com/mana-ethereum/ex_rlp/pull/27)
+* Update [ethereum/tests submodule](https://github.com/ethereum/tests) (https://github.com/mana-ethereum/ex_rlp/pull/23 and https://github.com/mana-ethereum/ex_rlp/pull/25)
 # 0.5.2
 * reverts https://github.com/mana-ethereum/ex_rlp/pull/20 which introduced encoding bug (https://github.com/mana-ethereum/ex_rlp/pull/22)
 * defensive guard checking in encoder (https://github.com/mana-ethereum/ex_rlp/pull/21)

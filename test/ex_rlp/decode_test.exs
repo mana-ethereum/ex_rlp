@@ -22,6 +22,23 @@ defmodule ExRLP.DecodeTest do
       end)
     end
 
+    test "correctly refuses to decode invalid" do
+      test_file_name = "invalidRLPTest.json"
+
+      test_file_name
+      |> read_json_file
+      |> Enum.each(fn {test_name, %{"in" => expected_result, "out" => input}} ->
+        # there are only INVALID cases today, testing if this is still the case
+        assert expected_result == "INVALID"
+        normalized_input = normalize_invalid_case_data(input)
+
+        assert_raise ExRLP.DecodeError, fn ->
+          Decode.decode(normalized_input)
+          IO.puts("#{test_name} failed to raise")
+        end
+      end)
+    end
+
     test "decodes nested lists" do
       expected_result =
         [["key1", "val1"], ["key2", "val2"], ["key3", "val3"], ["key4", "val4"]]
