@@ -1,5 +1,6 @@
 defmodule ExRLP.Decode do
   @moduledoc false
+
   alias ExRLP.DecodeItem
   @spec decode(binary(), keyword()) :: ExRLP.t()
   def decode(item, options \\ []) when is_binary(item) do

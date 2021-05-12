@@ -1,8 +1,15 @@
-# ExRLP [![CircleCI](https://circleci.com/gh/mana-ethereum/ex_rlp.svg?style=svg)](https://circleci.com/gh/mana-ethereum/ex_rlp)
+# ExRLP
 
-Elixir implementation of Ethereum's RLP (Recursive Length Prefix) encoding
+[![CircleCI](https://circleci.com/gh/mana-ethereum/ex_rlp.svg?style=svg)](https://circleci.com/gh/mana-ethereum/ex_rlp)
+[![Module Version](https://img.shields.io/hexpm/v/ex_rlp.svg)](https://hex.pm/packages/ex_rlp)
+[![Hex Docs](https://img.shields.io/badge/hex-docs-lightgreen.svg)](https://hexdocs.pm/ex_rlp/)
+[![Total Download](https://img.shields.io/hexpm/dt/ex_rlp.svg)](https://hex.pm/packages/ex_rlp)
+[![License](https://img.shields.io/hexpm/l/ex_rlp.svg)](https://github.com/mana-ethereum/ex_rlp/blob/master/LICENSE)
+[![Last Updated](https://img.shields.io/github/last-commit/mana-ethereum/ex_rlp.svg)](https://github.com/mana-ethereum/ex_rlp/commits/master)
 
-The encoding's specification can be found in [the yellow paper](http://yellowpaper.io/) or in the [ethereum wiki](https://github.com/ethereum/wiki/wiki/RLP)
+Elixir implementation of Ethereum's RLP (Recursive Length Prefix) encoding.
+
+The encoding's specification can be found in [the yellow paper](http://yellowpaper.io/) or in the [ethereum wiki](https://github.com/ethereum/wiki/wiki/RLP).
 
 ## Installation
 
@@ -20,47 +27,44 @@ end
 
 And run:
 
-    $ mix deps.get
+```bash
+$ mix deps.get
+```
 
 ## Basic Usage
 
-Use ExRLP.encode/1 method to encode an item to RLP representation. An item can be nonnegative integer, binary or list. List can contain integers, binaries or lists.
+Use `ExRLP.encode/1` method to encode an item to RLP representation. An item can be non-negative integer, binary or list. List can contain integers, binaries or lists.
 
 ```elixir
-  ## Examples
+iex> "dog" |> ExRLP.encode(encoding: :hex)
+"83646f67"
 
-      iex(1)> "dog" |> ExRLP.encode(encoding: :hex)
-      "83646f67"
+iex> "dog" |> ExRLP.encode(encoding: :binary)
+<<0x83, 0x64, 0x6f, 0x67>>
 
-      iex(2)> "dog" |> ExRLP.encode(encoding: :binary)
-      <<0x83, 0x64, 0x6f, 0x67>>
+iex> 1000 |> ExRLP.encode(encoding: :hex)
+"8203e8"
 
-      iex(3)> 1000 |> ExRLP.encode(encoding: :hex)
-      "8203e8"
+# Default encoding is binary
+iex> 1000 |> ExRLP.encode
+<<0x82, 0x03, 0xe8>>
 
-      # Default encoding is binary
-      iex(3)> 1000 |> ExRLP.encode
-      <<0x82, 0x03, 0xe8>>
-
-      iex(4)> [ [ [], [] ], [] ] |> ExRLP.encode(encoding: :hex)
-      "c4c2c0c0c0"
+iex> [ [ [], [] ], [] ] |> ExRLP.encode(encoding: :hex)
+"c4c2c0c0c0"
 ```
 
-Use ExRLP.decode/1 method to decode a rlp encoded data. All items except lists are decoded as binaries so additional deserialization is needed if initially an item of another type was encoded.
+Use `ExRLP.decode/1` method to decode a RLP encoded data. All items except lists are decoded as binaries so additional deserialization is needed if initially an item of another type was encoded.
 
 
 ```elixir
+iex> "83646f67" |> ExRLP.decode(encoding: :hex)
+"dog"
 
-  ## Examples
+iex> "8203e8" |> ExRLP.decode(encoding: :hex) |> :binary.decode_unsigned
+1000
 
-      iex(1)> "83646f67" |> ExRLP.decode(encoding: :hex)
-      "dog"
-
-      iex(2)> "8203e8" |> ExRLP.decode(encoding: :hex) |> :binary.decode_unsigned
-      1000
-
-      iex(3)> "c4c2c0c0c0" |> ExRLP.decode(encoding: :hex)
-      [[[], []], []]
+iex> "c4c2c0c0c0" |> ExRLP.decode(encoding: :hex)
+[[[], []], []]
 ```
 
 More examples can be found in test files.
@@ -103,7 +107,6 @@ defimpl ExRLP.Encode, for: ExRLP.LogEntry do
     |> Encode.encode(options)
   end
 end
-
 ```
 
 ## Contributing
@@ -118,6 +121,9 @@ end
 
 Ayrat Badykov (@ayrat555)
 
-## License
+## Copyright and License
 
-ExRLP is released under the MIT License. See the LICENSE file for further details.
+Copyright (c) 2017 Geoffrey Hayes, Ayrat Badykov, Mason Forest
+
+ExRLP is released under the MIT License. See the [LICENSE.md](./LICENSE.md) file
+for further details.

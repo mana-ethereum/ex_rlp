@@ -1,7 +1,8 @@
 defmodule ExRLP.DecodeItem do
   @moduledoc """
-    Captures bins and decodes them.
+  Captures bins and decodes them.
   """
+
   @spec decode_item(binary()) :: ExRLP.t()
   def decode_item(rlp_binary), do: do_decode_item(rlp_binary, nil)
   ##
