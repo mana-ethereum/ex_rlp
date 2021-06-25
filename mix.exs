@@ -1,20 +1,19 @@
 defmodule ExRLP.Mixfile do
   use Mix.Project
 
+  @source_url "https://github.com/mana-ethereum/ex_rlp"
+  @version "0.5.3"
+
   def project do
     [
       app: :ex_rlp,
-      version: "0.5.3",
+      version: @version,
       elixir: "~> 1.7",
-      description: "Ethereum's Recursive Length Prefix (RLP) encoding",
-      package: [
-        maintainers: ["Ayrat Badykov", "Geoffrey Hayes"],
-        licenses: ["MIT"],
-        links: %{"GitHub" => "https://github.com/mana-ethereum/ex_rlp"}
-      ],
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
+      package: package(),
       deps: deps(),
+      docs: docs(),
       dialyzer: [ignore_warnings: ".dialyzer.ignore-warnings"],
       elixirc_paths: elixirc_paths(Mix.env())
     ]
@@ -27,10 +26,35 @@ defmodule ExRLP.Mixfile do
   defp deps do
     [
       {:credo, "~> 0.10.2", only: [:dev, :test], runtime: false},
-      {:ex_doc, "~> 0.19", only: :dev, runtime: false},
+      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
       {:dialyxir, "~> 0.5", only: [:dev], runtime: false},
       {:poison, "~> 4.0.1", only: [:dev, :test], runtime: false},
       {:propcheck, "~> 1.1", only: [:test]}
+    ]
+  end
+
+  defp package do
+    [
+      description: "Ethereum's Recursive Length Prefix (RLP) encoding",
+      maintainers: ["Ayrat Badykov", "Geoffrey Hayes"],
+      licenses: ["MIT"],
+      links: %{
+        "Changelog" => "https://hexdocs.pm/ex_rlp/changelog.html",
+        "GitHub" => @source_url
+      }
+    ]
+  end
+
+  defp docs do
+    [
+      extras: [
+        "CHANGELOG.md",
+        "LICENSE.md": [title: "License"],
+        "README.md": [title: "Overview"]
+      ],
+      main: "readme",
+      source_url: @source_url,
+      formatters: ["html"]
     ]
   end
 
