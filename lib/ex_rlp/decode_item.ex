@@ -4,6 +4,7 @@ defmodule ExRLP.DecodeItem do
   """
 
   @spec decode_item(binary()) :: ExRLP.t()
+  def decode_item(""), do: raise(ExRLP.DecodeError)
   def decode_item(rlp_binary), do: do_decode_item(rlp_binary, nil)
   ##
   ## HANDLING 0 - 127
@@ -280,13 +281,11 @@ defmodule ExRLP.DecodeItem do
   ## HANDLING 128 - 183
   ##
   defp do_decode_item(<<128, tail::binary>>, nil) do
-    <<item::binary-size(0), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(0, tail, nil)
   end
 
   defp do_decode_item(<<128, tail::binary>>, result) do
-    <<item::binary-size(0), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(0, tail, result)
   end
 
   defp do_decode_item(<<129, bad::little-size(8), _tail::binary>>, _) when bad < 128 do
@@ -298,553 +297,443 @@ defmodule ExRLP.DecodeItem do
   end
 
   defp do_decode_item(<<129, tail::binary>>, nil) do
-    <<item::binary-size(1), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(1, tail, nil)
   end
 
   defp do_decode_item(<<129, tail::binary>>, result) do
-    <<item::binary-size(1), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(1, tail, result)
   end
 
   defp do_decode_item(<<130, tail::binary>>, nil) do
-    <<item::binary-size(2), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(2, tail, nil)
   end
 
   defp do_decode_item(<<130, tail::binary>>, result) do
-    <<item::binary-size(2), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(2, tail, result)
   end
 
   defp do_decode_item(<<131, tail::binary>>, nil) do
-    <<item::binary-size(3), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(3, tail, nil)
   end
 
   defp do_decode_item(<<131, tail::binary>>, result) do
-    <<item::binary-size(3), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(3, tail, result)
   end
 
   defp do_decode_item(<<132, tail::binary>>, nil) do
-    <<item::binary-size(4), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(4, tail, nil)
   end
 
   defp do_decode_item(<<132, tail::binary>>, result) do
-    <<item::binary-size(4), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(4, tail, result)
   end
 
   defp do_decode_item(<<133, tail::binary>>, nil) do
-    <<item::binary-size(5), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(5, tail, nil)
   end
 
   defp do_decode_item(<<133, tail::binary>>, result) do
-    <<item::binary-size(5), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(5, tail, result)
   end
 
   defp do_decode_item(<<134, tail::binary>>, nil) do
-    <<item::binary-size(6), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(6, tail, nil)
   end
 
   defp do_decode_item(<<134, tail::binary>>, result) do
-    <<item::binary-size(6), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(6, tail, result)
   end
 
   defp do_decode_item(<<135, tail::binary>>, nil) do
-    <<item::binary-size(7), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(7, tail, nil)
   end
 
   defp do_decode_item(<<135, tail::binary>>, result) do
-    <<item::binary-size(7), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(7, tail, result)
   end
 
   defp do_decode_item(<<136, tail::binary>>, nil) do
-    <<item::binary-size(8), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(8, tail, nil)
   end
 
   defp do_decode_item(<<136, tail::binary>>, result) do
-    <<item::binary-size(8), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(8, tail, result)
   end
 
   defp do_decode_item(<<137, tail::binary>>, nil) do
-    <<item::binary-size(9), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(9, tail, nil)
   end
 
   defp do_decode_item(<<137, tail::binary>>, result) do
-    <<item::binary-size(9), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(9, tail, result)
   end
 
   defp do_decode_item(<<138, tail::binary>>, nil) do
-    <<item::binary-size(10), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(10, tail, nil)
   end
 
   defp do_decode_item(<<138, tail::binary>>, result) do
-    <<item::binary-size(10), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(10, tail, result)
   end
 
   defp do_decode_item(<<139, tail::binary>>, nil) do
-    <<item::binary-size(11), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(11, tail, nil)
   end
 
   defp do_decode_item(<<139, tail::binary>>, result) do
-    <<item::binary-size(11), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(11, tail, result)
   end
 
   defp do_decode_item(<<140, tail::binary>>, nil) do
-    <<item::binary-size(12), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(12, tail, nil)
   end
 
   defp do_decode_item(<<140, tail::binary>>, result) do
-    <<item::binary-size(12), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(12, tail, result)
   end
 
   defp do_decode_item(<<141, tail::binary>>, nil) do
-    <<item::binary-size(13), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(13, tail, nil)
   end
 
   defp do_decode_item(<<141, tail::binary>>, result) do
-    <<item::binary-size(13), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(13, tail, result)
   end
 
   defp do_decode_item(<<142, tail::binary>>, nil) do
-    <<item::binary-size(14), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(14, tail, nil)
   end
 
   defp do_decode_item(<<142, tail::binary>>, result) do
-    <<item::binary-size(14), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(14, tail, result)
   end
 
   defp do_decode_item(<<143, tail::binary>>, nil) do
-    <<item::binary-size(15), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(15, tail, nil)
   end
 
   defp do_decode_item(<<143, tail::binary>>, result) do
-    <<item::binary-size(15), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(15, tail, result)
   end
 
   defp do_decode_item(<<144, tail::binary>>, nil) do
-    <<item::binary-size(16), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(16, tail, nil)
   end
 
   defp do_decode_item(<<144, tail::binary>>, result) do
-    <<item::binary-size(16), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(16, tail, result)
   end
 
   defp do_decode_item(<<145, tail::binary>>, nil) do
-    <<item::binary-size(17), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(17, tail, nil)
   end
 
   defp do_decode_item(<<145, tail::binary>>, result) do
-    <<item::binary-size(17), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(17, tail, result)
   end
 
   defp do_decode_item(<<146, tail::binary>>, nil) do
-    <<item::binary-size(18), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(18, tail, nil)
   end
 
   defp do_decode_item(<<146, tail::binary>>, result) do
-    <<item::binary-size(18), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(18, tail, result)
   end
 
   defp do_decode_item(<<147, tail::binary>>, nil) do
-    <<item::binary-size(19), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(19, tail, nil)
   end
 
   defp do_decode_item(<<147, tail::binary>>, result) do
-    <<item::binary-size(19), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(19, tail, result)
   end
 
   defp do_decode_item(<<148, tail::binary>>, nil) do
-    <<item::binary-size(20), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(20, tail, nil)
   end
 
   defp do_decode_item(<<148, tail::binary>>, result) do
-    <<item::binary-size(20), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(20, tail, result)
   end
 
   defp do_decode_item(<<149, tail::binary>>, nil) do
-    <<item::binary-size(21), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(21, tail, nil)
   end
 
   defp do_decode_item(<<149, tail::binary>>, result) do
-    <<item::binary-size(21), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(21, tail, result)
   end
 
   defp do_decode_item(<<150, tail::binary>>, nil) do
-    <<item::binary-size(22), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(22, tail, nil)
   end
 
   defp do_decode_item(<<150, tail::binary>>, result) do
-    <<item::binary-size(22), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(22, tail, result)
   end
 
   defp do_decode_item(<<151, tail::binary>>, nil) do
-    <<item::binary-size(23), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(23, tail, nil)
   end
 
   defp do_decode_item(<<151, tail::binary>>, result) do
-    <<item::binary-size(23), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(23, tail, result)
   end
 
   defp do_decode_item(<<152, tail::binary>>, nil) do
-    <<item::binary-size(24), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(24, tail, nil)
   end
 
   defp do_decode_item(<<152, tail::binary>>, result) do
-    <<item::binary-size(24), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(24, tail, result)
   end
 
   defp do_decode_item(<<153, tail::binary>>, nil) do
-    <<item::binary-size(25), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(25, tail, nil)
   end
 
   defp do_decode_item(<<153, tail::binary>>, result) do
-    <<item::binary-size(25), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(25, tail, result)
   end
 
   defp do_decode_item(<<154, tail::binary>>, nil) do
-    <<item::binary-size(26), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(26, tail, nil)
   end
 
   defp do_decode_item(<<154, tail::binary>>, result) do
-    <<item::binary-size(26), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(26, tail, result)
   end
 
   defp do_decode_item(<<155, tail::binary>>, nil) do
-    <<item::binary-size(27), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(27, tail, nil)
   end
 
   defp do_decode_item(<<155, tail::binary>>, result) do
-    <<item::binary-size(27), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(27, tail, result)
   end
 
   defp do_decode_item(<<156, tail::binary>>, nil) do
-    <<item::binary-size(28), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(28, tail, nil)
   end
 
   defp do_decode_item(<<156, tail::binary>>, result) do
-    <<item::binary-size(28), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(28, tail, result)
   end
 
   defp do_decode_item(<<157, tail::binary>>, nil) do
-    <<item::binary-size(29), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(29, tail, nil)
   end
 
   defp do_decode_item(<<157, tail::binary>>, result) do
-    <<item::binary-size(29), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(29, tail, result)
   end
 
   defp do_decode_item(<<158, tail::binary>>, nil) do
-    <<item::binary-size(30), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(30, tail, nil)
   end
 
   defp do_decode_item(<<158, tail::binary>>, result) do
-    <<item::binary-size(30), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(30, tail, result)
   end
 
   defp do_decode_item(<<159, tail::binary>>, nil) do
-    <<item::binary-size(31), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(31, tail, nil)
   end
 
   defp do_decode_item(<<159, tail::binary>>, result) do
-    <<item::binary-size(31), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(31, tail, result)
   end
 
   defp do_decode_item(<<160, tail::binary>>, nil) do
-    <<item::binary-size(32), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(32, tail, nil)
   end
 
   defp do_decode_item(<<160, tail::binary>>, result) do
-    <<item::binary-size(32), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(32, tail, result)
   end
 
   defp do_decode_item(<<161, tail::binary>>, nil) do
-    <<item::binary-size(33), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(33, tail, nil)
   end
 
   defp do_decode_item(<<161, tail::binary>>, result) do
-    <<item::binary-size(33), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(33, tail, result)
   end
 
   defp do_decode_item(<<162, tail::binary>>, nil) do
-    <<item::binary-size(34), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(34, tail, nil)
   end
 
   defp do_decode_item(<<162, tail::binary>>, result) do
-    <<item::binary-size(34), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(34, tail, result)
   end
 
   defp do_decode_item(<<163, tail::binary>>, nil) do
-    <<item::binary-size(35), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(35, tail, nil)
   end
 
   defp do_decode_item(<<163, tail::binary>>, result) do
-    <<item::binary-size(35), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(35, tail, result)
   end
 
   defp do_decode_item(<<164, tail::binary>>, nil) do
-    <<item::binary-size(36), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(36, tail, nil)
   end
 
   defp do_decode_item(<<164, tail::binary>>, result) do
-    <<item::binary-size(36), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(36, tail, result)
   end
 
   defp do_decode_item(<<165, tail::binary>>, nil) do
-    <<item::binary-size(37), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(37, tail, nil)
   end
 
   defp do_decode_item(<<165, tail::binary>>, result) do
-    <<item::binary-size(37), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(37, tail, result)
   end
 
   defp do_decode_item(<<166, tail::binary>>, nil) do
-    <<item::binary-size(38), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(38, tail, nil)
   end
 
   defp do_decode_item(<<166, tail::binary>>, result) do
-    <<item::binary-size(38), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(38, tail, result)
   end
 
   defp do_decode_item(<<167, tail::binary>>, nil) do
-    <<item::binary-size(39), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(39, tail, nil)
   end
 
   defp do_decode_item(<<167, tail::binary>>, result) do
-    <<item::binary-size(39), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(39, tail, result)
   end
 
   defp do_decode_item(<<168, tail::binary>>, nil) do
-    <<item::binary-size(40), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(40, tail, nil)
   end
 
   defp do_decode_item(<<168, tail::binary>>, result) do
-    <<item::binary-size(40), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(40, tail, result)
   end
 
   defp do_decode_item(<<169, tail::binary>>, nil) do
-    <<item::binary-size(41), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(41, tail, nil)
   end
 
   defp do_decode_item(<<169, tail::binary>>, result) do
-    <<item::binary-size(41), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(41, tail, result)
   end
 
   defp do_decode_item(<<170, tail::binary>>, nil) do
-    <<item::binary-size(42), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(42, tail, nil)
   end
 
   defp do_decode_item(<<170, tail::binary>>, result) do
-    <<item::binary-size(42), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(42, tail, result)
   end
 
   defp do_decode_item(<<171, tail::binary>>, nil) do
-    <<item::binary-size(43), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(43, tail, nil)
   end
 
   defp do_decode_item(<<171, tail::binary>>, result) do
-    <<item::binary-size(43), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(43, tail, result)
   end
 
   defp do_decode_item(<<172, tail::binary>>, nil) do
-    <<item::binary-size(44), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(44, tail, nil)
   end
 
   defp do_decode_item(<<172, tail::binary>>, result) do
-    <<item::binary-size(44), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(44, tail, result)
   end
 
   defp do_decode_item(<<173, tail::binary>>, nil) do
-    <<item::binary-size(45), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(45, tail, nil)
   end
 
   defp do_decode_item(<<173, tail::binary>>, result) do
-    <<item::binary-size(45), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(45, tail, result)
   end
 
   defp do_decode_item(<<174, tail::binary>>, nil) do
-    <<item::binary-size(46), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(46, tail, nil)
   end
 
   defp do_decode_item(<<174, tail::binary>>, result) do
-    <<item::binary-size(46), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(46, tail, result)
   end
 
   defp do_decode_item(<<175, tail::binary>>, nil) do
-    <<item::binary-size(47), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(47, tail, nil)
   end
 
   defp do_decode_item(<<175, tail::binary>>, result) do
-    <<item::binary-size(47), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(47, tail, result)
   end
 
   defp do_decode_item(<<176, tail::binary>>, nil) do
-    <<item::binary-size(48), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(48, tail, nil)
   end
 
   defp do_decode_item(<<176, tail::binary>>, result) do
-    <<item::binary-size(48), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(48, tail, result)
   end
 
   defp do_decode_item(<<177, tail::binary>>, nil) do
-    <<item::binary-size(49), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(49, tail, nil)
   end
 
   defp do_decode_item(<<177, tail::binary>>, result) do
-    <<item::binary-size(49), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(49, tail, result)
   end
 
   defp do_decode_item(<<178, tail::binary>>, nil) do
-    <<item::binary-size(50), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(50, tail, nil)
   end
 
   defp do_decode_item(<<178, tail::binary>>, result) do
-    <<item::binary-size(50), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(50, tail, result)
   end
 
   defp do_decode_item(<<179, tail::binary>>, nil) do
-    <<item::binary-size(51), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(51, tail, nil)
   end
 
   defp do_decode_item(<<179, tail::binary>>, result) do
-    <<item::binary-size(51), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(51, tail, result)
   end
 
   defp do_decode_item(<<180, tail::binary>>, nil) do
-    <<item::binary-size(52), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(52, tail, nil)
   end
 
   defp do_decode_item(<<180, tail::binary>>, result) do
-    <<item::binary-size(52), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(52, tail, result)
   end
 
   defp do_decode_item(<<181, tail::binary>>, nil) do
-    <<item::binary-size(53), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(53, tail, nil)
   end
 
   defp do_decode_item(<<181, tail::binary>>, result) do
-    <<item::binary-size(53), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(53, tail, result)
   end
 
   defp do_decode_item(<<182, tail::binary>>, nil) do
-    <<item::binary-size(54), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(54, tail, nil)
   end
 
   defp do_decode_item(<<182, tail::binary>>, result) do
-    <<item::binary-size(54), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(54, tail, result)
   end
 
   defp do_decode_item(<<183, tail::binary>>, nil) do
-    <<item::binary-size(55), new_tail::binary>> = tail
-    do_decode_item(new_tail, item)
+    recursion_iter(55, tail, nil)
   end
 
   defp do_decode_item(<<183, tail::binary>>, result) do
-    <<item::binary-size(55), new_tail::binary>> = tail
-    do_decode_item(new_tail, [item | result])
+    recursion_iter(55, tail, result)
   end
 
   ##
@@ -930,13 +819,13 @@ defmodule ExRLP.DecodeItem do
     do_decode_item(new_tail, [new_item | result])
   end
 
-  defp do_decode_item(<<197, tail::binary>>, nil) do
+  defp do_decode_item(<<197, tail::binary>>, nil) when byte_size(tail) >= 5 do
     <<item::binary-size(5), new_tail::binary>> = tail
     new_item = Enum.reverse(do_decode_item(item, []))
     do_decode_item(new_tail, new_item)
   end
 
-  defp do_decode_item(<<197, tail::binary>>, result) do
+  defp do_decode_item(<<197, tail::binary>>, result) when byte_size(tail) >= 5 do
     <<item::binary-size(5), new_tail::binary>> = tail
     new_item = do_decode_item(item, [])
     do_decode_item(new_tail, [new_item | result])
@@ -1278,13 +1167,13 @@ defmodule ExRLP.DecodeItem do
     do_decode_item(new_tail, [new_item | result])
   end
 
-  defp do_decode_item(<<226, tail::binary>>, nil) do
+  defp do_decode_item(<<226, tail::binary>>, nil) when byte_size(tail) >= 34 do
     <<item::binary-size(34), new_tail::binary>> = tail
     new_item = Enum.reverse(do_decode_item(item, []))
     do_decode_item(new_tail, new_item)
   end
 
-  defp do_decode_item(<<226, tail::binary>>, result) do
+  defp do_decode_item(<<226, tail::binary>>, result) when byte_size(tail) >= 34 do
     <<item::binary-size(34), new_tail::binary>> = tail
     new_item = do_decode_item(item, [])
     do_decode_item(new_tail, [new_item | result])
@@ -1568,6 +1457,15 @@ defmodule ExRLP.DecodeItem do
 
   defp do_decode_item(<<>>, result), do: result
 
+  defp do_decode_item(_, _), do: raise(ExRLP.DecodeError)
+
+  defp recursion_iter(size, tail, result) when byte_size(tail) >= size do
+    <<item::binary-size(size), new_tail::binary>> = tail
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp recursion_iter(_, _, _), do: raise(ExRLP.DecodeError)
+
   # decodes a long string or long list, based on the already decoded size of length provided (`be_size`)
   #
   # `be_size` - size of the length component in `tail`
@@ -1579,7 +1477,7 @@ defmodule ExRLP.DecodeItem do
   # leading zeroes in length
   defp decode_long_binary(_, <<0, _::binary>>), do: raise(ExRLP.DecodeError)
 
-  defp decode_long_binary(be_size, tail) do
+  defp decode_long_binary(be_size, tail) when be_size > 0 and byte_size(tail) > 0 do
     <<be::binary-size(be_size), data::binary>> = tail
 
     item_length = :binary.decode_unsigned(be)
@@ -1593,4 +1491,6 @@ defmodule ExRLP.DecodeItem do
       {_, short_binary} when is_binary(short_binary) -> raise(ExRLP.DecodeError)
     end
   end
+
+  defp decode_long_binary(_, _), do: raise(ExRLP.DecodeError)
 end
