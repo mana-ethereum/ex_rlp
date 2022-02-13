@@ -1,9 +1,7 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
-
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## 0.5.4 - 2022-02-13
+* Remove deprecated config file (https://github.com/mana-ethereum/ex_rlp/pull/35)
 
 ## 0.5.3 - 2020-02-07
 * Handle invalid RLP when decoding (with respective tests from [ethereum/tests](https://github.com/ethereum/tests/blob/develop/RLPTests/invalidRLPTest.json)) (https://github.com/mana-ethereum/ex_rlp/pull/27)

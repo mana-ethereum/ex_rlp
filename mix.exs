@@ -2,7 +2,7 @@ defmodule ExRLP.Mixfile do
   use Mix.Project
 
   @source_url "https://github.com/mana-ethereum/ex_rlp"
-  @version "0.5.3"
+  @version "0.5.4"
 
   def project do
     [
