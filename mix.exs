@@ -25,11 +25,11 @@ defmodule ExRLP.Mixfile do
 
   defp deps do
     [
-      {:credo, "~> 0.10.2", only: [:dev, :test], runtime: false},
+      {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
-      {:dialyxir, "~> 0.5", only: [:dev], runtime: false},
-      {:poison, "~> 4.0.1", only: [:dev, :test], runtime: false},
-      {:propcheck, "~> 1.1", only: [:test]}
+      {:dialyxir, "~> 1.1", only: [:dev], runtime: false},
+      {:jason, "~> 1.3", only: [:dev, :test], runtime: false},
+      {:propcheck, "~> 1.4", only: [:test]}
     ]
   end
 
