@@ -5,7 +5,7 @@ defmodule ExRLP.TestUtils do
   def read_json_file(file_name) do
     {:ok, body} = File.read(@tests_directory <> file_name)
 
-    Poison.decode!(body)
+    Jason.decode!(body)
   end
 
   def normalize_data("#" <> number) do
