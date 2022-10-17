@@ -7,11 +7,9 @@ defmodule ExRLP.PropTest do
   @moduletag timeout: 120_000
 
   def safe_decode(binary) do
-    try do
-      ExRLP.decode(binary)
-    rescue
-      _ -> :decoder_crashed
-    end
+    ExRLP.decode(binary)
+  rescue
+    _ -> :decoder_crashed
   end
 
   # Looks for cases where decoding is not one-to-one. Note: no claims about the encoder are checked here!
