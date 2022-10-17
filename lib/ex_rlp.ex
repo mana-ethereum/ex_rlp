@@ -3,7 +3,8 @@ defmodule ExRLP do
   Elixir implementation of Ethereum's RLP (Recursive Length Prefix) encoding.
   """
 
-  alias ExRLP.{Encode, Decode}
+  alias ExRLP.Decode
+  alias ExRLP.Encode
 
   @type t :: any()
 
