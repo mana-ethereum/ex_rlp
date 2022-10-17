@@ -27,6 +27,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          submodules: recursive
 
       - uses: erlef/setup-beam@v1
         with:
@@ -41,9 +43,6 @@ jobs:
           key: ${{ runner.os }}-mix-${{matrix.pair.elixir}}-${{matrix.pair.otp}}-${{ hashFiles('**/mix.lock') }}
           restore-keys: |
             ${{ runner.os }}-mix-${{matrix.pair.elixir}}-${{matrix.pair.otp}}-
-
-      - name: Fetch submodules
-        run: git submodule sync --recursive && git submodule update --recursive --init
 
       - name: Run mix deps.get
         run: mix deps.get --only test
