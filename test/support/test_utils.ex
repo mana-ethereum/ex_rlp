@@ -3,9 +3,10 @@ defmodule ExRLP.TestUtils do
   @tests_directory "test/support/ethereum_common_tests/RLPTests/"
 
   def read_json_file(file_name) do
-    {:ok, body} = File.read(@tests_directory <> file_name)
-
-    Jason.decode!(body)
+    @tests_directory
+    |> Kernel.<>(file_name)
+    |> File.read!()
+    |> Jason.decode!()
   end
 
   def normalize_data("#" <> number) do

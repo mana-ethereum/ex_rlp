@@ -4,7 +4,7 @@ defmodule ExRLP.LogEntry do
   defstruct address: nil, topics: [], data: nil
 
   @type t :: %__MODULE__{
-          address: EVM.address(),
+          address: binary(),
           topics: [integer()],
           data: binary()
         }

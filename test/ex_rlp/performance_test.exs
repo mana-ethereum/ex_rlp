@@ -15,7 +15,7 @@ defmodule ExRLP.PerformanceTest do
     assert elapsed(start) < 20
   end
 
-  defp time_start() do
+  defp time_start do
     Time.utc_now()
   end
 
