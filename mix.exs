@@ -14,7 +14,7 @@ defmodule ExRLP.Mixfile do
       package: package(),
       deps: deps(),
       docs: docs(),
-      dialyzer: [ignore_warnings: ".dialyzer.ignore-warnings"],
+      dialyzer: [ignore_warnings: ".dialyzer.ignore-warnings", plt_add_apps: [:jason]],
       elixirc_paths: elixirc_paths(Mix.env())
     ]
   end
