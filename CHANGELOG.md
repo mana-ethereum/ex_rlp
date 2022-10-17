@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.5.5 - 2022-02-17
+* Fix credo and dialyzer warnings (https://github.com/mana-ethereum/ex_rlp/pull/48)
+
 ## 0.5.4 - 2022-02-13
 * Remove deprecated config file (https://github.com/mana-ethereum/ex_rlp/pull/35)
 
