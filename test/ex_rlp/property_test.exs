@@ -4,7 +4,7 @@ defmodule ExRLP.PropTest do
   use PropCheck
   use ExUnit.Case
 
-  @moduletag timeout: 120_000
+  @moduletag timeout: 300_000
 
   def safe_decode(binary) do
     ExRLP.decode(binary)
