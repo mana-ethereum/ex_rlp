@@ -855,7 +855,11 @@ defmodule ExRLP.DecodeItem do
   defp do_decode_item(<<be_size_prefix, tail::binary>>, nil) when be_size_prefix < 192 do
     {new_item, new_tail} = decode_long_binary(be_size_prefix - 183, tail)
 
-    do_decode_item(new_tail, new_item)
+    if new_tail == <<>> do
+      do_decode_item(new_tail, new_item)
+    else
+      do_decode_item(new_tail, [new_item])
+    end
   end
 
   defp do_decode_item(<<be_size_prefix, tail::binary>>, result) when be_size_prefix < 192 do
