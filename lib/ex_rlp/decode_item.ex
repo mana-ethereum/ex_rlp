@@ -3,8 +3,8 @@ defmodule ExRLP.DecodeItem do
   Captures bins and decodes them.
   """
 
-  @spec decode_item(binary()) :: ExRLP.t()
-  def decode_item(rlp_binary), do: do_decode_item(rlp_binary, nil)
+  @spec decode_item(binary(), boolean()) :: ExRLP.t()
+  def decode_item(rlp_binary, stream), do: do_decode_item(rlp_binary, nil, stream)
   ##
   ## HANDLING 0 - 127
   ##
@@ -15,11 +15,18 @@ defmodule ExRLP.DecodeItem do
   # `list_result` - possibly a result of decoding a list payload:
   #   - if `nil`: we are not processing a list
   #   - if a list: we are processing a list, and we have this much currently
-  @spec do_decode_item(payload :: binary(), list_result :: ExRLP.t()) :: ExRLP.t()
-  defp do_decode_item(<<n, tail::binary>>, nil) when n < 128,
-    do: do_decode_item(tail, <<n>>)
+  @spec do_decode_item(payload :: binary(), list_result :: ExRLP.t(), boolean()) :: ExRLP.t()
+  defp do_decode_item(payload, result, stream \\ false)
 
-  defp do_decode_item(<<n, tail::binary>>, result) when n < 128,
+  defp do_decode_item(<<n, tail::binary>>, nil, stream) when n < 128 do
+    if stream do
+      {<<n>>, tail}
+    else
+      do_decode_item(tail, <<n>>)
+    end
+  end
+
+  defp do_decode_item(<<n, tail::binary>>, result, _stream) when n < 128,
     do: do_decode_item(tail, [<<n>> | result])
 
   ##
@@ -29,24 +36,20 @@ defmodule ExRLP.DecodeItem do
   ##
   ## HANDLING 128 - 183
   ##
-  defp do_decode_item(<<129>>, _) do
+  defp do_decode_item(<<129>>, _, _) do
     raise(ExRLP.DecodeError)
   end
 
-  defp do_decode_item(<<129, bad::little-size(8), _tail::binary>>, _) when bad < 128 do
+  defp do_decode_item(<<129, bad::little-size(8), _tail::binary>>, _, _) when bad < 128 do
     raise(ExRLP.DecodeError)
   end
 
-  defp do_decode_item(<<129, bad::little-size(8)>>, _) when bad < 128 do
+  defp do_decode_item(<<129, bad::little-size(8)>>, _, _) when bad < 128 do
     raise(ExRLP.DecodeError)
   end
 
-  defp do_decode_item(<<n, tail::binary>>, nil) when n < 184 do
-    do_decode_when_valid_length(n - 128, tail, nil)
-  end
-
-  defp do_decode_item(<<n, tail::binary>>, result) when n < 184 do
-    do_decode_when_valid_length(n - 128, tail, result)
+  defp do_decode_item(<<n, tail::binary>>, result, stream) when n < 184 do
+    do_decode_when_valid_length(n - 128, tail, result, stream)
   end
 
   ##
@@ -54,13 +57,18 @@ defmodule ExRLP.DecodeItem do
   ##
 
   # decode_long_binary - CAN'T OPTIMISE FOR NOW
-  defp do_decode_item(<<be_size_prefix, tail::binary>>, nil) when be_size_prefix < 192 do
+  defp do_decode_item(<<be_size_prefix, tail::binary>>, nil, stream) when be_size_prefix < 192 do
     {new_item, new_tail} = decode_long_binary(be_size_prefix - 183, tail)
 
-    do_decode_item(new_tail, new_item)
+    if stream do
+      {new_item, new_tail}
+    else
+      do_decode_item(new_tail, new_item)
+    end
   end
 
-  defp do_decode_item(<<be_size_prefix, tail::binary>>, result) when be_size_prefix < 192 do
+  defp do_decode_item(<<be_size_prefix, tail::binary>>, result, _stream)
+       when be_size_prefix < 192 do
     {new_item, new_tail} = decode_long_binary(be_size_prefix - 183, tail)
 
     do_decode_item(new_tail, [new_item | result])
@@ -69,11 +77,15 @@ defmodule ExRLP.DecodeItem do
   ##
   ## HANDLING 192
   ##
-  defp do_decode_item(<<192, tail::binary>>, nil) do
-    do_decode_item(tail, [])
+  defp do_decode_item(<<192, tail::binary>>, nil, stream) do
+    if stream do
+      {[], tail}
+    else
+      do_decode_item(tail, [])
+    end
   end
 
-  defp do_decode_item(<<192, tail::binary>>, result) do
+  defp do_decode_item(<<192, tail::binary>>, result, _stream) do
     do_decode_item(tail, [[] | result])
   end
 
@@ -84,19 +96,24 @@ defmodule ExRLP.DecodeItem do
   ##
   ## HANDLING 193-247
   ##
-  defp do_decode_item(<<n, tail::binary>>, nil) when n < 248 do
+  defp do_decode_item(<<n, tail::binary>>, nil, stream) when n < 248 do
     size = n - 192
 
     if byte_size(tail) >= size do
       <<item::binary-size(size), new_tail::binary>> = tail
       new_item = Enum.reverse(do_decode_item(item, []))
-      do_decode_item(new_tail, new_item)
+
+      if stream do
+        {new_item, new_tail}
+      else
+        do_decode_item(new_tail, new_item)
+      end
     else
       raise(ExRLP.DecodeError)
     end
   end
 
-  defp do_decode_item(<<n, tail::binary>>, result) when n < 248 do
+  defp do_decode_item(<<n, tail::binary>>, result, _stream) when n < 248 do
     size = n - 192
 
     if byte_size(tail) >= size do
@@ -111,40 +128,49 @@ defmodule ExRLP.DecodeItem do
   ##
   ## FINISHED HANDLING 193-247
   ##
-
-  # decode_long_binary - CAN'T OPTIMISE FOR NOW
-  defp do_decode_item(<<be_size_prefix, tail::binary>>, nil) when be_size_prefix > 247 do
+  defp do_decode_item(<<be_size_prefix, tail::binary>>, nil, stream) when be_size_prefix > 247 do
     {list_binary, new_tail} = decode_long_binary(be_size_prefix - 247, tail)
     reversed_list = do_decode_item(list_binary, [])
     new_result = Enum.reverse(reversed_list)
 
-    do_decode_item(new_tail, new_result)
+    if stream do
+      {new_result, new_tail}
+    else
+      do_decode_item(new_tail, new_result)
+    end
   end
 
-  defp do_decode_item(<<be_size_prefix, tail::binary>>, result) when be_size_prefix > 247 do
+  defp do_decode_item(<<be_size_prefix, tail::binary>>, result, _stream)
+       when be_size_prefix > 247 do
     {list_binary, new_tail} = decode_long_binary(be_size_prefix - 247, tail)
     list = do_decode_item(list_binary, [])
 
     do_decode_item(new_tail, [list | result])
   end
 
-  defp do_decode_item(<<>>, result) when is_list(result) do
+  defp do_decode_item(<<>>, result, _stream) when is_list(result) do
     Enum.reverse(result)
   end
 
-  defp do_decode_item(<<>>, result), do: result
+  defp do_decode_item(<<>>, result, _stream), do: result
 
-  defp do_decode_when_valid_length(size, tail, result) when byte_size(tail) >= size do
+  defp do_decode_when_valid_length(size, tail, nil, stream) when byte_size(tail) >= size do
     <<item::binary-size(size), new_tail::binary>> = tail
 
-    if result do
-      do_decode_item(new_tail, [item | result])
+    if stream do
+      {item, new_tail}
     else
       do_decode_item(new_tail, item)
     end
   end
 
-  defp do_decode_when_valid_length(_size, _tail, _result), do: raise(ExRLP.DecodeError)
+  defp do_decode_when_valid_length(size, tail, result, _stream) when byte_size(tail) >= size do
+    <<item::binary-size(size), new_tail::binary>> = tail
+
+    do_decode_item(new_tail, [item | result])
+  end
+
+  defp do_decode_when_valid_length(_size, _tail, _result, _stream), do: raise(ExRLP.DecodeError)
 
   # decodes a long string or long list, based on the already decoded size of length provided (`be_size`)
   #

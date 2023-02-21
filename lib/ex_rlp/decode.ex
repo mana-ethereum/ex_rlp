@@ -8,9 +8,12 @@ defmodule ExRLP.Decode do
   def decode("", _), do: raise(ExRLP.DecodeError)
 
   def decode(item, options) when is_binary(item) do
+    encoding = Keyword.get(options, :encoding, :binary)
+    stream = Keyword.get(options, :stream, false)
+
     item
-    |> unencode(Keyword.get(options, :encoding, :binary))
-    |> DecodeItem.decode_item()
+    |> unencode(encoding)
+    |> DecodeItem.decode_item(stream)
   end
 
   @spec unencode(binary(), atom()) :: binary()
