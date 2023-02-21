@@ -2,7 +2,7 @@ defmodule ExRLP.Decode do
   @moduledoc false
 
   alias ExRLP.DecodeItem
-  @spec decode(binary(), keyword()) :: ExRLP.t()
+  @spec decode(binary(), keyword()) :: ExRLP.t() | {ExRLP.t(), binary()} | no_return()
   def decode(item, options \\ [])
 
   def decode("", _), do: raise(ExRLP.DecodeError)
