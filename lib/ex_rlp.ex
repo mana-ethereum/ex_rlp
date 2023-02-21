@@ -65,7 +65,7 @@ defmodule ExRLP do
   ## Examples
 
       iex> ExRLP.decode(<<>>)
-      nil
+      ** (ExRLP.DecodeError) invalid rlp encoding
 
       iex> ExRLP.decode(<<0x83, ?d, ?o, ?g>>)
       "dog"
