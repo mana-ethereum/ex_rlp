@@ -3,7 +3,11 @@ defmodule ExRLP.Decode do
 
   alias ExRLP.DecodeItem
   @spec decode(binary(), keyword()) :: ExRLP.t()
-  def decode(item, options \\ []) when is_binary(item) do
+  def decode(item, options \\ [])
+
+  def decode("", _), do: raise(ExRLP.DecodeError)
+
+  def decode(item, options) when is_binary(item) do
     item
     |> unencode(Keyword.get(options, :encoding, :binary))
     |> DecodeItem.decode_item()
