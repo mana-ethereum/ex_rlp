@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.0 - 2023-02-23
+* Update and fix common tests (https://github.com/mana-ethereum/ex_rlp/pull/52)
+* Add streaming decode (https://github.com/mana-ethereum/ex_rlp/pull/53)
+
 ## 0.5.5 - 2022-10-17
 * Fix credo and dialyzer warnings (https://github.com/mana-ethereum/ex_rlp/pull/48)
 
