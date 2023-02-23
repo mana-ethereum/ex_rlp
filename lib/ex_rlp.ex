@@ -54,7 +54,7 @@ defmodule ExRLP do
   """
   @spec encode(t) :: binary()
   @spec encode(t, keyword()) :: binary()
-  def encode(item, options \\ [encoding: :binary]) do
+  def encode(item, options \\ []) do
     Encode.encode(item, options)
   end
 
@@ -62,10 +62,18 @@ defmodule ExRLP do
   Given an RLP-encoded string, returns a decoded RPL structure (which is an
   array of RLP structures or binaries).
 
+  If stream (`[stream: true]`) is enabled, it will just decode the first rlp sequence
+
   ## Examples
 
       iex> ExRLP.decode(<<>>)
       ** (ExRLP.DecodeError) invalid rlp encoding
+
+      iex> ExRLP.decode(<<0xc8, 0x83, ?c, ?a, ?t, 0x83, ?d, ?o, ?g>>)
+      ["cat", "dog"]
+
+      iex> ExRLP.decode(<<131, 99, 97, 116, 131, 99, 97, 116>>, stream: true)
+      {"cat", <<131, 99, 97, 116>>}
 
       iex> ExRLP.decode(<<0x83, ?d, ?o, ?g>>)
       "dog"
@@ -75,9 +83,6 @@ defmodule ExRLP do
 
       iex> ExRLP.decode(<<184, 60, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65>>)
       Enum.join(for _ <- 1..60, do: "A")
-
-      iex> ExRLP.decode(<<0xc8, 0x83, ?c, ?a, ?t, 0x83, ?d, ?o, ?g>>)
-      ["cat", "dog"]
 
       iex> ExRLP.decode(<<198, 51, 132, 99, 111, 111, 108>>)
       ["3", "cool"]
@@ -105,7 +110,7 @@ defmodule ExRLP do
 
   """
   @spec decode(binary()) :: t
-  @spec decode(binary(), keyword()) :: t
+  @spec decode(binary(), keyword()) :: t() | {t(), binary()} | no_return()
   def decode(item, options \\ [encoding: :binary]) do
     Decode.decode(item, options)
   end

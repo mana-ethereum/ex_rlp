@@ -2,15 +2,18 @@ defmodule ExRLP.Decode do
   @moduledoc false
 
   alias ExRLP.DecodeItem
-  @spec decode(binary(), keyword()) :: ExRLP.t()
+  @spec decode(binary(), keyword()) :: ExRLP.t() | {ExRLP.t(), binary()} | no_return()
   def decode(item, options \\ [])
 
   def decode("", _), do: raise(ExRLP.DecodeError)
 
   def decode(item, options) when is_binary(item) do
+    encoding = Keyword.get(options, :encoding, :binary)
+    stream = Keyword.get(options, :stream, false)
+
     item
-    |> unencode(Keyword.get(options, :encoding, :binary))
-    |> DecodeItem.decode_item()
+    |> unencode(encoding)
+    |> DecodeItem.decode_item(stream)
   end
 
   @spec unencode(binary(), atom()) :: binary()
