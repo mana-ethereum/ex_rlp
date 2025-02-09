@@ -4,7 +4,7 @@
 [![Module Version](https://img.shields.io/hexpm/v/ex_rlp.svg)](https://hex.pm/packages/ex_rlp)
 [![Hex Docs](https://img.shields.io/badge/hex-docs-lightgreen.svg)](https://hexdocs.pm/ex_rlp/)
 [![Total Download](https://img.shields.io/hexpm/dt/ex_rlp.svg)](https://hex.pm/packages/ex_rlp)
-[![License](https://img.shields.io/hexpm/l/ex_rlp.svg)](https://github.com/mana-ethereum/ex_rlp/blob/master/LICENSE)
+[![License](https://img.shields.io/hexpm/l/ex_rlp.svg)](https://github.com/mana-ethereum/ex_rlp/blob/master/LICENSE.md)
 [![Last Updated](https://img.shields.io/github/last-commit/mana-ethereum/ex_rlp.svg)](https://github.com/mana-ethereum/ex_rlp/commits/master)
 
 Elixir implementation of Ethereum's RLP (Recursive Length Prefix) encoding.
@@ -119,7 +119,7 @@ end
 
 ## Author
 
-Ayrat Badykov (@ayrat555)
+Ayrat Badykov [(@ayrat555)](https://github.com/ayrat555)
 
 ## Copyright and License
 
