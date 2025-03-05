@@ -123,7 +123,7 @@ Ayrat Badykov [(@ayrat555)](https://github.com/ayrat555)
 
 ## Copyright and License
 
-Copyright (c) 2025 Geoffrey Hayes, Ayrat Badykov, Mason Forest
+Copyright (c) 2017-present Geoffrey Hayes, Ayrat Badykov, Mason Forest
 
 ExRLP is released under the MIT License. See the [LICENSE.md](./LICENSE.md) file
 for further details.
