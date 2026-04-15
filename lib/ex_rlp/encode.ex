@@ -32,7 +32,7 @@ defimpl ExRLP.Encode, for: BitString do
 end
 
 defimpl ExRLP.Encode, for: Integer do
-  alias ExRLP.{Utils, Encode}
+  alias ExRLP.{Encode, Utils}
 
   @spec encode(ExRLP.t(), keyword()) :: binary()
   def encode(value, options \\ []) do
@@ -51,7 +51,7 @@ defimpl ExRLP.Encode, for: Integer do
 end
 
 defimpl ExRLP.Encode, for: List do
-  alias ExRLP.{Utils, Encode}
+  alias ExRLP.{Encode, Utils}
 
   @spec encode([ExRLP.t()], keyword()) :: binary()
   def encode(values, options \\ []) do
